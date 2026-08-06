@@ -3,7 +3,7 @@
 <img width="573" height="296" alt="image" src="https://github.com/user-attachments/assets/f8ac30c6-3629-42cb-884a-67057c998b77" />
 
 <h3>Download</h3>
-https://github.com/GullDSP/Circulate/releases
+https://github.com/komakizhu/Circulate-VST-macOS/releases
 <h3>Demo</h3>
 https://www.youtube.com/watch?v=rluT0xgxPuI
 
@@ -39,3 +39,24 @@ www.youtube.com/watch?v=tcsrC33vn1s&t=1s
 <img width="200" height="187" alt="XXXXXXXX_snapshot_2 0x" src="https://steinbergmedia.github.io/vst3_dev_portal/resources/licensing_3.png" />
 
 </ul>
+
+<h3>Building the macOS VST3 plugin</h3>
+<p>The project can be built as Universal 2 VST3 and AUv2 bundles for Intel and Apple Silicon Macs. The Steinberg VST3 SDK and Apple AudioUnitSDK are included as Git submodules.</p>
+<pre><code>git clone --recurse-submodules https://github.com/komakizhu/Circulate-VST-macOS.git
+cd Circulate-VST
+cmake -S . -B build-macos -G "Unix Makefiles" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+  -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
+  -DSMTG_CREATE_PLUGIN_LINK=OFF
+cmake --build build-macos -j1</code></pre>
+<p>The resulting VST3 bundle is <code>build-macos/VST3/Release/Circulate.vst3</code>. For AUv2, use the Xcode generator and enable <code>CIRCULATE_ENABLE_AUV2</code>:</p>
+<pre><code>cmake -S . -B build-macos-au -G Xcode \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+  -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
+  -DSMTG_CREATE_PLUGIN_LINK=OFF \
+  -DCIRCULATE_ENABLE_AUV2=ON \
+  -DCIRCULATE_AUV2_STAGING_DIR="$PWD/outputs"
+cmake --build build-macos-au --config Release</code></pre>
+<p>To produce the distributable DMG after both bundles are available in <code>outputs/</code>, run <code>packaging/build-release.sh</code>. The script creates the Universal 2 PKG and DMG and installs to the system audio plug-in directories when the PKG is run.</p>

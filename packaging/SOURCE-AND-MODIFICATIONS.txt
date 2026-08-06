@@ -1,0 +1,12 @@
+Circulate macOS packaging source notice
+
+Upstream project:
+https://github.com/GullDSP/Circulate-VST
+
+This macOS build includes the cross-platform compatibility changes required for the
+VST3 SDK, the AUv2 wrapper integration, and the packaging/uninstaller tooling in this
+workspace. The corresponding source and build files are distributed in the project
+repository under the GPL-3.0 license.
+
+The VST3 SDK and Apple AudioUnitSDK remain separately licensed dependencies; see their
+included license files in the source repository.

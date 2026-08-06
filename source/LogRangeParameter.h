@@ -5,7 +5,7 @@
 #include "pluginterfaces/base/ustring.h"
 #include <cstdlib>
 #include <math.h>
-#include <tchar.h>
+#include <string>
 /// <summary>
 /// Custom override of Parameter class to allow printing of log values
 /// For pitch / center
@@ -59,12 +59,22 @@ public:
     // For when a value is typed into the control
     bool fromString(const Steinberg::Vst::TChar* string, Steinberg::Vst::ParamValue& valueNormalized) const override {
 
-        const char16_t* endptr = nullptr;
+        if (!string) return false;
 
-        const wchar_t* win32String = reinterpret_cast<const wchar_t*>(string);
+        // Steinberg::Vst::TChar is UTF-16 on every supported platform. Do
+        // not reinterpret it as wchar_t: wchar_t is 32-bit on macOS/Linux
+        // and 16-bit on Windows. Parameter entry here is numeric ASCII, so
+        // convert only the ASCII code units accepted by strtod.
+        std::string ascii;
+        for (const auto* cursor = reinterpret_cast<const char16_t*>(string);
+             *cursor != 0; ++cursor) {
+            if (*cursor > 0x7f) return false;
+            ascii.push_back(static_cast<char>(*cursor));
+        }
 
-        float value = wcstof(win32String, nullptr);
-        if (endptr == string) return false;
+        char* endptr = nullptr;
+        const double value = std::strtod(ascii.c_str(), &endptr);
+        if (endptr == ascii.c_str() || *endptr != '\0') return false;
 
         valueNormalized = toNormalized(value);
         

@@ -1,0 +1,49 @@
+Circulate macOS Universal 安装包
+================================
+
+版本：2.0.0
+格式：VST3 + AUv2
+架构：Universal 2（Apple Silicon arm64 + Intel x86_64）
+最低系统：macOS 11.0
+
+本 DMG 顶层包含四项：安装 PKG、卸载程序、README，以及“版权文件夹”。版权文件夹
+内含 GPL-3.0 许可证、源码与修改说明和 SHA256 校验清单。
+
+安装
+----
+双击“Install Circulate.pkg”，按 Installer 提示授权。插件会安装到：
+
+  /Library/Audio/Plug-Ins/VST3/Circulate.vst3
+  /Library/Audio/Plug-Ins/Components/Circulate.component
+
+安装完成后重启 Logic Pro、Ableton Live 或其他宿主，再扫描插件。
+
+卸载
+----
+双击“Circulate Uninstaller.app”，确认后输入管理员密码。它只删除 Circulate 的
+两个插件和安装收据，不删除工程、预设或其他厂商插件。
+
+安全提示
+--------
+本版本没有 Apple Developer ID 签名或公证。若 macOS 显示“无法验证开发者”或
+“无法打开，因为无法验证开发者”，请先在 Finder 中右键该项目并选择“打开”，
+或到“系统设置 > 隐私与安全性”允许本次打开。
+
+这只是 macOS 的下载安全提示处理方式，不修复实际损坏的文件，也不替代 Developer ID
+签名和公证。打开前请确认文件来自可信来源，并核对“版权文件夹/SHA256SUMS.txt”。
+
+正式公开发行
+------------
+正式发行应使用 Developer ID Application 签名插件与卸载 App、Developer ID Installer
+签名 PKG，并提交 Apple notarization。发布脚本支持以下环境变量：
+
+  CIRCULATE_DEVELOPER_ID_APPLICATION
+  CIRCULATE_DEVELOPER_ID_INSTALLER
+  CIRCULATE_NOTARY_PROFILE
+
+许可证和源码
+------------
+Circulate 按 GPL-3.0 发布。请阅读“版权文件夹/GPL-3.0许可证.txt”，并从以下地址获取源码和
+本 macOS 兼容修改：
+
+  https://github.com/GullDSP/Circulate-VST

@@ -365,3 +365,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /source/CirculateHelpers.cpp
+
+# macOS local build trees and release output
+build-macos-*/
+outputs/
+.DS_Store
