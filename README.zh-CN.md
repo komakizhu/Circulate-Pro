@@ -12,7 +12,11 @@ Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波�
 
 [PKG / DMG 发布页](https://github.com/komakizhu/Circulate-VST-macOS/releases)，支持 Intel 与 Apple Silicon。
 
-### Windows 原版
+### Windows EXE 安装程序
+
+[下载 Circulate-Windows-VST3-Setup.exe](https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v2.0.3-macos/Circulate-Windows-VST3-Setup.exe)。运行安装程序后，VST3 会安装到 Windows 标准目录 `Common Files\VST3`，同时创建卸载入口。
+
+### Windows 原版 ZIP
 
 [下载 circulate-vst3-v2_0_1.zip](https://github.com/GullDSP/Circulate-VST/releases/download/v2.0.1.1/circulate-vst3-v2_0_1.zip)（上游 `v2.0.1.1`）。这是真正的 Windows 原版构建，来源于上游项目。
 
