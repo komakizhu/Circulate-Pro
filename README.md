@@ -5,7 +5,11 @@
 <img width="573" height="296" alt="image" src="https://github.com/user-attachments/assets/f8ac30c6-3629-42cb-884a-67057c998b77" />
 
 <h3>Download</h3>
-https://github.com/komakizhu/Circulate-VST-macOS/releases
+<ul>
+<li><strong>macOS Universal 2:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases">PKG / DMG releases</a> for Intel and Apple Silicon.</li>
+<li><strong>Windows original:</strong> <a href="https://github.com/GullDSP/Circulate-VST/releases/download/v2.0.1.1/circulate-vst3-v2_0_1.zip">circulate-vst3-v2_0_1.zip</a> from upstream <code>v2.0.1.1</code>.</li>
+</ul>
+<p>The <code>.dmg.sha256</code> file is a checksum record for the DMG. It lets you verify that the downloaded installer is complete and has not been changed or corrupted.</p>
 <h3>Demo</h3>
 https://www.youtube.com/watch?v=rluT0xgxPuI
 

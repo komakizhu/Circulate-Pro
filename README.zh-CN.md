@@ -8,7 +8,17 @@ Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波�
 
 ## 下载
 
-[GitHub Releases](https://github.com/komakizhu/Circulate-VST-macOS/releases)
+### macOS Universal 2
+
+[PKG / DMG 发布页](https://github.com/komakizhu/Circulate-VST-macOS/releases)，支持 Intel 与 Apple Silicon。
+
+### Windows 原版
+
+[下载 circulate-vst3-v2_0_1.zip](https://github.com/GullDSP/Circulate-VST/releases/download/v2.0.1.1/circulate-vst3-v2_0_1.zip)（上游 `v2.0.1.1`）。这是真正的 Windows 原版构建，来源于上游项目。
+
+### `.dmg.sha256` 是什么？
+
+它是 DMG 安装包的 SHA-256 校验值文件，用来确认下载是否完整，以及文件在传输或存储过程中是否被损坏或篡改。macOS 可在终端运行 `shasum -a 256 Circulate-macOS-2.0.0-Universal.dmg`，将输出结果与该文件中的值进行比较；两者一致即可。
 
 当前 macOS 发布包包含 Universal 2 VST3、AUv2、安装 PKG、卸载程序和版权材料。未配置 Developer ID 与公证的版本可能触发 macOS Gatekeeper 提示，详见发布包中的 README。
 
