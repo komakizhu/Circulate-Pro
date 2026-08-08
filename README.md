@@ -1,4 +1,6 @@
 <h1><strong>Circulate</strong></h1>
+<p><a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
+<p><strong>Fork / macOS port:</strong> This repository is a macOS-focused fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. The plugin baseline is Circulate 2.0.0, based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). This fork adds Universal 2 VST3/AUv2 builds and macOS PKG/DMG packaging while preserving the original DSP and interface.</p>
 <p>Circulate is an allpass filter-based phase dispersion effect. The allpass filters, while leaving the frequency spectrum untouched, cause selective phase offsets around the chosen center frequency. These offsets present themselves as hollow and metallic short reverberation-like effects, useful for adding a dynamic metallic character to sounds. The effect is most pronounced on transient material, such as bass stabs, drum hits and plucks.</p>
 <img width="573" height="296" alt="image" src="https://github.com/user-attachments/assets/f8ac30c6-3629-42cb-884a-67057c998b77" />
 
@@ -43,7 +45,7 @@ www.youtube.com/watch?v=tcsrC33vn1s&t=1s
 <h3>Building the macOS VST3 plugin</h3>
 <p>The project can be built as Universal 2 VST3 and AUv2 bundles for Intel and Apple Silicon Macs. The Steinberg VST3 SDK and Apple AudioUnitSDK are included as Git submodules.</p>
 <pre><code>git clone --recurse-submodules https://github.com/komakizhu/Circulate-VST-macOS.git
-cd Circulate-VST
+cd Circulate-VST-macOS
 cmake -S . -B build-macos -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
