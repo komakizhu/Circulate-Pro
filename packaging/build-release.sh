@@ -14,7 +14,6 @@ PKG_NAME="Circulate-macOS-${VERSION}-Universal.pkg"
 DMG_NAME="Circulate-macOS-${VERSION}-Universal.dmg"
 FINAL_PKG="${OUTPUT_DIR}/${PKG_NAME}"
 FINAL_DMG="${OUTPUT_DIR}/${DMG_NAME}"
-FINAL_DMG_SHA="${FINAL_DMG}.sha256"
 DMG_README_NAME="1 README.txt"
 DMG_INSTALLER_NAME="2 Install Circulate.pkg"
 DMG_COPYRIGHT_NAME="3 Copyright"
@@ -151,15 +150,6 @@ fi
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/work/Circulate-VST/LICENSE.txt" "${COPYRIGHT_DIR}/GPL-3.0-License.txt"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/SOURCE-AND-MODIFICATIONS.txt" "${COPYRIGHT_DIR}/Source-and-Modifications.txt"
 
-(
-    cd "${DMG_ROOT}"
-    /usr/bin/shasum -a 256 \
-        "${DMG_INSTALLER_NAME}" \
-        "${DMG_UNINSTALLER_NAME}/Contents/MacOS/Circulate Uninstaller" \
-        "${DMG_README_NAME}" \
-        > "${COPYRIGHT_DIR}/SHA256SUMS.txt"
-)
-
 # Do not carry the builder's quarantine/provenance resource attributes into the
 # distributable disk image. Code signatures are stored in bundle files and are
 # checked again after this cleanup.
@@ -172,7 +162,6 @@ fi
     -format UDZO \
     -imagekey zlib-level=9 \
     -ov "${FINAL_DMG}"
-/usr/bin/shasum -a 256 "${FINAL_DMG}" > "${FINAL_DMG_SHA}"
 
 if [[ -n "${NOTARY_PROFILE}" ]]; then
     if [[ -z "${APPLICATION_IDENTITY}" || -z "${INSTALLER_IDENTITY}" ]]; then
@@ -186,4 +175,3 @@ fi
 
 echo "Created: ${FINAL_PKG}"
 echo "Created: ${FINAL_DMG}"
-echo "Checksum: ${FINAL_DMG_SHA}"

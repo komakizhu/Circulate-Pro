@@ -7,7 +7,7 @@ Circulate macOS Universal 安装包
 最低系统：macOS 11.0
 
 本 DMG 顶层包含四项：README、安装 PKG、Copyright 文件夹和卸载程序。Copyright 文件夹
-内含 GPL-3.0 许可证、源码与修改说明和 SHA256 校验清单。
+内含 GPL-3.0 许可证以及源码与修改说明。
 
 安装
 ----
@@ -30,7 +30,7 @@ Circulate macOS Universal 安装包
 或到“系统设置 > 隐私与安全性”允许本次打开。
 
 这只是 macOS 的下载安全提示处理方式，不修复实际损坏的文件，也不替代 Developer ID
-签名和公证。打开前请确认文件来自可信来源，并核对“3 Copyright/SHA256SUMS.txt”。
+签名和公证。打开前请确认文件来自可信来源。
 
 正式公开发行
 ------------
