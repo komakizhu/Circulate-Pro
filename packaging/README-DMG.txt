@@ -6,7 +6,7 @@ Circulate macOS Universal 安装包
 架构：Universal 2（Apple Silicon arm64 + Intel x86_64）
 最低系统：macOS 11.0
 
-本 DMG 顶层包含四项：安装 PKG、卸载程序、README，以及“版权文件夹”。版权文件夹
+本 DMG 顶层包含四项：README、安装 PKG、Copyright 文件夹和卸载程序。Copyright 文件夹
 内含 GPL-3.0 许可证、源码与修改说明和 SHA256 校验清单。
 
 安装
@@ -30,7 +30,7 @@ Circulate macOS Universal 安装包
 或到“系统设置 > 隐私与安全性”允许本次打开。
 
 这只是 macOS 的下载安全提示处理方式，不修复实际损坏的文件，也不替代 Developer ID
-签名和公证。打开前请确认文件来自可信来源，并核对“版权文件夹/SHA256SUMS.txt”。
+签名和公证。打开前请确认文件来自可信来源，并核对“3 Copyright/SHA256SUMS.txt”。
 
 正式公开发行
 ------------
@@ -43,7 +43,7 @@ Circulate macOS Universal 安装包
 
 许可证和源码
 ------------
-Circulate 按 GPL-3.0 发布。请阅读“版权文件夹/GPL-3.0许可证.txt”，并从以下地址获取源码和
+Circulate 按 GPL-3.0 发布。请阅读“3 Copyright/GPL-3.0-License.txt”，并从以下地址获取源码和
 本 macOS 兼容修改：
 
   https://github.com/GullDSP/Circulate-VST

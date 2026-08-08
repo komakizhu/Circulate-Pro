@@ -17,7 +17,7 @@ FINAL_DMG="${OUTPUT_DIR}/${DMG_NAME}"
 FINAL_DMG_SHA="${FINAL_DMG}.sha256"
 DMG_README_NAME="1 README.txt"
 DMG_INSTALLER_NAME="2 Install Circulate.pkg"
-DMG_COPYRIGHT_NAME="3 版权文件夹"
+DMG_COPYRIGHT_NAME="3 Copyright"
 DMG_UNINSTALLER_NAME="4 Circulate Uninstaller.app"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
@@ -148,8 +148,8 @@ fi
 
 /usr/bin/ditto --norsrc "${FINAL_PKG}" "${DMG_ROOT}/${DMG_INSTALLER_NAME}"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/README-DMG.txt" "${DMG_ROOT}/${DMG_README_NAME}"
-/usr/bin/ditto --norsrc "${PROJECT_DIR}/work/Circulate-VST/LICENSE.txt" "${COPYRIGHT_DIR}/GPL-3.0许可证.txt"
-/usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/SOURCE-AND-MODIFICATIONS.txt" "${COPYRIGHT_DIR}/源码与修改说明.txt"
+/usr/bin/ditto --norsrc "${PROJECT_DIR}/work/Circulate-VST/LICENSE.txt" "${COPYRIGHT_DIR}/GPL-3.0-License.txt"
+/usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/SOURCE-AND-MODIFICATIONS.txt" "${COPYRIGHT_DIR}/Source-and-Modifications.txt"
 
 (
     cd "${DMG_ROOT}"
