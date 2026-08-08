@@ -15,13 +15,17 @@ DMG_NAME="Circulate-macOS-${VERSION}-Universal.dmg"
 FINAL_PKG="${OUTPUT_DIR}/${PKG_NAME}"
 FINAL_DMG="${OUTPUT_DIR}/${DMG_NAME}"
 FINAL_DMG_SHA="${FINAL_DMG}.sha256"
+DMG_README_NAME="1 README.txt"
+DMG_INSTALLER_NAME="2 Install Circulate.pkg"
+DMG_COPYRIGHT_NAME="3 版权文件夹"
+DMG_UNINSTALLER_NAME="4 Circulate Uninstaller.app"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
     echo "This release builder requires macOS." >&2
     exit 1
 fi
 
-for required_path in "${VST3_SOURCE}" "${AU_SOURCE}" "${PROJECT_DIR}/LICENSE.txt"; do
+for required_path in "${VST3_SOURCE}" "${AU_SOURCE}" "${PROJECT_DIR}/work/Circulate-VST/LICENSE.txt"; do
     if [[ ! -e "${required_path}" ]]; then
         echo "Missing required input: ${required_path}" >&2
         exit 1
@@ -59,7 +63,7 @@ trap 'rm -rf "${WORK_DIR}"' EXIT
 PACKAGE_ROOT="${WORK_DIR}/package-root"
 PACKAGE_SCRIPTS="${WORK_DIR}/package-scripts"
 DMG_ROOT="${WORK_DIR}/dmg-root"
-COPYRIGHT_DIR="${DMG_ROOT}/版权文件夹"
+COPYRIGHT_DIR="${DMG_ROOT}/${DMG_COPYRIGHT_NAME}"
 UNSIGNED_PKG="${WORK_DIR}/Circulate-unsigned.pkg"
 STAGED_VST3="${PACKAGE_ROOT}/Library/Audio/Plug-Ins/VST3/Circulate.vst3"
 STAGED_AU="${PACKAGE_ROOT}/Library/Audio/Plug-Ins/Components/Circulate.component"
@@ -109,7 +113,7 @@ else
     /usr/bin/ditto --norsrc "${UNSIGNED_PKG}" "${FINAL_PKG}"
 fi
 
-UNINSTALLER_APP="${DMG_ROOT}/Circulate Uninstaller.app"
+UNINSTALLER_APP="${DMG_ROOT}/${DMG_UNINSTALLER_NAME}"
 mkdir -p "${UNINSTALLER_APP}/Contents/MacOS"
 mkdir -p "${UNINSTALLER_APP}/Contents/Resources"
 
@@ -129,6 +133,7 @@ done
     -output "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/uninstaller-Info.plist" "${UNINSTALLER_APP}/Contents/Info.plist"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/uninstall-root.sh" "${UNINSTALLER_APP}/Contents/Resources/uninstall-root.sh"
+/usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/CirculateUninstaller.icns" "${UNINSTALLER_APP}/Contents/Resources/CirculateUninstaller.icns"
 /bin/chmod 755 "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
 /bin/chmod 755 "${UNINSTALLER_APP}/Contents/Resources/uninstall-root.sh"
 
@@ -141,17 +146,17 @@ fi
 /usr/bin/xattr -rc "${UNINSTALLER_APP}" 2>/dev/null || true
 /usr/bin/codesign --verify --deep --strict "${UNINSTALLER_APP}"
 
-/usr/bin/ditto --norsrc "${FINAL_PKG}" "${DMG_ROOT}/Install Circulate.pkg"
-/usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/README-DMG.txt" "${DMG_ROOT}/README.txt"
-/usr/bin/ditto --norsrc "${PROJECT_DIR}/LICENSE.txt" "${COPYRIGHT_DIR}/GPL-3.0许可证.txt"
+/usr/bin/ditto --norsrc "${FINAL_PKG}" "${DMG_ROOT}/${DMG_INSTALLER_NAME}"
+/usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/README-DMG.txt" "${DMG_ROOT}/${DMG_README_NAME}"
+/usr/bin/ditto --norsrc "${PROJECT_DIR}/work/Circulate-VST/LICENSE.txt" "${COPYRIGHT_DIR}/GPL-3.0许可证.txt"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/SOURCE-AND-MODIFICATIONS.txt" "${COPYRIGHT_DIR}/源码与修改说明.txt"
 
 (
     cd "${DMG_ROOT}"
     /usr/bin/shasum -a 256 \
-        "Install Circulate.pkg" \
-        "Circulate Uninstaller.app/Contents/MacOS/Circulate Uninstaller" \
-        "README.txt" \
+        "${DMG_INSTALLER_NAME}" \
+        "${DMG_UNINSTALLER_NAME}/Contents/MacOS/Circulate Uninstaller" \
+        "${DMG_README_NAME}" \
         > "${COPYRIGHT_DIR}/SHA256SUMS.txt"
 )
 

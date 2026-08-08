@@ -8,6 +8,10 @@
 	<string>Circulate Uninstaller</string>
 	<key>CFBundleExecutable</key>
 	<string>Circulate Uninstaller</string>
+	<key>CFBundleIconFile</key>
+	<string>CirculateUninstaller.icns</string>
+	<key>CFBundleIconName</key>
+	<string>CirculateUninstaller</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.gulldsp.circulate.uninstaller</string>
 	<key>CFBundleInfoDictionaryVersion</key>
