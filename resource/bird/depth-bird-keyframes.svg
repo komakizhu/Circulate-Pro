@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="450" height="50" viewBox="0 0 450 50">
+  <!-- Nine independent raster keyframes; each image is held for eight Depth values. -->
+  <!-- This manifest documents the runtime mapping and is not an animation atlas. -->
+  <image id="keyframe-00" data-depth-range="0-7" data-source-cell="0" href="depth-bird-keyframe-00.png" x="0" y="0" width="50" height="50" />
+  <image id="keyframe-01" data-depth-range="8-15" data-source-cell="1" href="depth-bird-keyframe-01.png" x="50" y="0" width="50" height="50" />
+  <image id="keyframe-02" data-depth-range="16-23" data-source-cell="2" href="depth-bird-keyframe-02.png" x="100" y="0" width="50" height="50" />
+  <image id="keyframe-03" data-depth-range="24-31" data-source-cell="3" href="depth-bird-keyframe-03.png" x="150" y="0" width="50" height="50" />
+  <image id="keyframe-04" data-depth-range="32-39" data-source-cell="4" href="depth-bird-keyframe-04.png" x="200" y="0" width="50" height="50" />
+  <image id="keyframe-05" data-depth-range="40-47" data-source-cell="5" href="depth-bird-keyframe-05.png" x="250" y="0" width="50" height="50" />
+  <image id="keyframe-06" data-depth-range="48-55" data-source-cell="6" href="depth-bird-keyframe-06.png" x="300" y="0" width="50" height="50" />
+  <image id="keyframe-07" data-depth-range="56-63" data-source-cell="7" href="depth-bird-keyframe-07.png" x="350" y="0" width="50" height="50" />
+  <image id="keyframe-08" data-depth-range="64-64" data-source-cell="8" href="depth-bird-keyframe-08.png" x="400" y="0" width="50" height="50" />
+</svg>

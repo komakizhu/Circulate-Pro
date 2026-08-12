@@ -129,7 +129,10 @@ if(XCODE AND SMTG_ENABLE_AUV2_BUILDS)
         add_custom_command(TARGET ${target} POST_BUILD
             COMMAND "${CMAKE_COMMAND}" -E make_directory
                 "${outputdir}/${ARG_BUNDLE_NAME}.component/Contents/Resources"
-            COMMAND "${CMAKE_COMMAND}" -E rm -f
+            # The first build may leave Steinberg's historical symlink here,
+            # while subsequent builds contain our self-contained directory.
+            # Remove either form before copying the complete VST3 bundle.
+            COMMAND "${CMAKE_COMMAND}" -E rm -rf
                 "${outputdir}/${ARG_BUNDLE_NAME}.component/Contents/Resources/plugin.vst3"
             COMMAND "${CMAKE_COMMAND}" -E copy_directory
                 "${outputdir}/$<TARGET_FILE_NAME:${ARG_VST3_PLUGIN_TARGET}>.vst3"

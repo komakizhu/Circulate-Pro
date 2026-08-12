@@ -7,6 +7,8 @@
 #include "vstgui/uidescription/icontroller.h"
 #include "vstgui/uidescription/uiviewswitchcontainer.h"
 #include "vstgui/uidescription/uiattributes.h"
+#include "vstgui/lib/controls/cknob.h"
+#include "vstgui/lib/events.h"
 /// <summary>
 /// Custom editor, most of this is just manually switching the views for the center control
 /// as the viewswitchcontainer was buggy in ableton
@@ -19,6 +21,21 @@ public:
 
 		std::vector<double> zoomFactors = { 0.5,1,1.5,2,3,4,8, 16 };
 		VST3Editor::setAllowedZoomFactors(zoomFactors);
+
+		// VSTGUI already receives each parameter's factory default from the VST3
+		// parameter metadata. Keep the standard Control/Ctrl-click reset behavior,
+		// and add a left-button double-click reset for knobs only.
+		VSTGUI::CControl::CheckDefaultValueEventFunc =
+			[] (VSTGUI::CControl* control, VSTGUI::MouseDownEvent& event) {
+				const bool isControlClick =
+					event.buttonState.isLeft () &&
+					event.modifiers.is (VSTGUI::ModifierKey::Control);
+				const bool isKnobDoubleClick =
+					dynamic_cast<VSTGUI::CKnobBase*> (control) != nullptr &&
+					event.buttonState.isLeft () &&
+					event.clickCount > 1;
+				return isControlClick || isKnobDoubleClick;
+			};
 	
 	}
 
@@ -62,6 +79,11 @@ public:
 	}
 
 	VSTGUI::CView* verifyView(VSTGUI::CView* view, const VSTGUI::UIAttributes& attributes, const VSTGUI::IUIDescription* description) override {
+		// CKnobBase already uses CControl::kZoomModifier (Shift by default) for
+		// linear fine adjustment. Increase the drag range so the same mouse
+		// movement changes the parameter by roughly one tenth while Shift is held.
+		if (auto* knob = dynamic_cast<VSTGUI::CKnobBase*> (view))
+			knob->setZoomFactor (kFineAdjustmentZoomFactor);
 	
 		// Get pointers to the two types of center control
 		if (auto name = attributes.getAttributeValue("name"))
@@ -82,6 +104,7 @@ public:
 	};
 
 private:
+	static constexpr float kFineAdjustmentZoomFactor = 10.f;
 
 	VSTGUI::SharedPointer<VSTGUI::CViewContainer> pNoteContainer = nullptr;
 	VSTGUI::SharedPointer<VSTGUI::CViewContainer> pHzContainer = nullptr;

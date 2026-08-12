@@ -16,8 +16,10 @@
 	<string>BNDL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
+	<string>3.0.0</string>
 	<key>AudioComponents</key>
 	<array>
 		<dict>
@@ -34,7 +36,7 @@
 			<key>type</key>
 			<string>aufx</string>
 			<key>version</key>
-			<integer>131072</integer>
+			<integer>196608</integer>
 		</dict>
 	</array>
 	<key>AudioUnit SupportedNumChannels</key>

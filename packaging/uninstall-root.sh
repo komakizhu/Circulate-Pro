@@ -6,5 +6,7 @@ set -eu
     /Library/Audio/Plug-Ins/Components/Circulate.component
 
 /usr/sbin/pkgutil --forget com.gulldsp.circulate.pkg >/dev/null 2>&1 || true
+/usr/sbin/pkgutil --forget com.gulldsp.circulate.vst3 >/dev/null 2>&1 || true
+/usr/sbin/pkgutil --forget com.gulldsp.circulate.auv2 >/dev/null 2>&1 || true
 /usr/bin/killall -q AudioComponentRegistrar 2>/dev/null || true
 exit 0

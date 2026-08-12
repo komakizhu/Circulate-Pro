@@ -3,10 +3,25 @@ Circulate macOS packaging source notice
 Upstream project:
 https://github.com/GullDSP/Circulate-VST
 
+macOS fork source and corresponding modifications:
+https://github.com/komakizhu/Circulate-VST-macOS
+
 This macOS build includes the cross-platform compatibility changes required for the
 VST3 SDK, the AUv2 wrapper integration, and the packaging/uninstaller tooling in this
-workspace. The corresponding source and build files are distributed in the project
-repository under the GPL-3.0 license.
+workspace. Version 3.0.0 also adds knob double-click reset, approximately 10x Shift fine
+adjustment while dragging, corrects the Note and Depth factory defaults, and adds nine
+independent Depth keyframes from the supplied 3x3 raster keyframe sheet. The
+keyframe extraction preserves each supplied source cell as one complete state;
+it only removes the grid/background, places the cell on the shared runtime
+canvas, and applies the fixed whole-image vertical placement needed to expose
+the original leg behind the Depth value box. The 1x–4x resources remain at the
+same logical size. Each source image is held for eight Depth values, with the
+ninth image selected at Depth 64. The runtime jumps directly between the nine
+source images; there is no path redraw, interpolation,
+whole-image overlay or opacity fading. The macOS version credit links to the
+fork repository.
+The corresponding source and build files are distributed in the project repository
+under the GPL-3.0 license.
 
 The VST3 SDK and Apple AudioUnitSDK remain separately licensed dependencies; see their
 included license files in the source repository.

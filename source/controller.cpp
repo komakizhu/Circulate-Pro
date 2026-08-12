@@ -6,6 +6,10 @@
 #include "cids.h"
 #include "base/source/fstreamer.h"
 
+#include <cstddef>
+#include <cstring>
+#include <utility>
+
 #define MAX_ZOOM_FACTOR_LIMIT 16
 #define MIN_ZOOM_FACTOR_LIMIT 0.1
 
@@ -146,6 +150,48 @@ IPlugView* PLUGIN_API CirculateController::createView (FIDString name)
 
 		return currentEditor;
 	}
+	return nullptr;
+}
+
+//------------------------------------------------------------------------
+VSTGUI::CView* CirculateController::createCustomView (
+	VSTGUI::UTF8StringPtr name, const VSTGUI::UIAttributes&,
+	const VSTGUI::IUIDescription* description, VSTGUI::VST3Editor* editor)
+{
+	if (!name || !description)
+		return nullptr;
+
+	if (std::strcmp (name, "DepthBirdView") == 0)
+	{
+		static constexpr const char* keyframeNames[] = {
+			"depth-bird-keyframe-00",
+			"depth-bird-keyframe-01",
+			"depth-bird-keyframe-02",
+			"depth-bird-keyframe-03",
+			"depth-bird-keyframe-04",
+			"depth-bird-keyframe-05",
+			"depth-bird-keyframe-06",
+			"depth-bird-keyframe-07",
+			"depth-bird-keyframe-08",
+		};
+		DepthBirdView::KeyframeArray keyframes;
+		for (size_t index = 0; index < keyframes.size (); ++index)
+			keyframes[index] = VSTGUI::shared (description->getBitmap (keyframeNames[index]));
+
+		const auto depthTag = description->getTagForName ("Depth");
+		return new DepthBirdView (VSTGUI::CRect (0, 0, 50, 50), editor, depthTag,
+			std::move (keyframes));
+	}
+
+	if (std::strcmp (name, "CreditLinkView") == 0)
+	{
+		VSTGUI::CColor normalColor (100, 100, 100, 255);
+		description->getColor ("FG2", normalColor);
+		VSTGUI::CColor hoverColor (60, 60, 60, 255);
+		return new CreditLinkView (VSTGUI::CRect (0, 0, 220, 20),
+			description->getFont ("Credit"), normalColor, hoverColor);
+	}
+
 	return nullptr;
 }
 

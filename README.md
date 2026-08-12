@@ -1,8 +1,8 @@
 <h1><strong>Circulate</strong></h1>
 <p><a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
-<p><strong>Fork / macOS port:</strong> This repository is a macOS-focused fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. The plugin baseline is Circulate 2.0.0, based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). This fork adds Universal 2 VST3/AUv2 builds and macOS PKG/DMG packaging while preserving the original DSP and interface.</p>
+<p><strong>Fork / macOS version:</strong> This repository is a macOS-focused fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. Version 3.0.0 is based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). This fork adds Universal 2 VST3/AUv2 builds, macOS PKG/DMG packaging, knob double-click reset, corrected factory defaults, and nine independent raster keyframes supplied by the author while preserving the original DSP.</p>
 <p>Circulate is an allpass filter-based phase dispersion effect. The allpass filters, while leaving the frequency spectrum untouched, cause selective phase offsets around the chosen center frequency. These offsets present themselves as hollow and metallic short reverberation-like effects, useful for adding a dynamic metallic character to sounds. The effect is most pronounced on transient material, such as bass stabs, drum hits and plucks.</p>
-<img width="573" height="296" alt="image" src="https://github.com/user-attachments/assets/f8ac30c6-3629-42cb-884a-67057c998b77" />
+<img width="660" height="398" alt="Circulate macOS preview" src="resource/readme/circulate-macos-preview.png" />
 
 <h3>Download</h3>
 <ul>
@@ -37,6 +37,16 @@ www.youtube.com/watch?v=tcsrC33vn1s&t=1s
 <li>Fixed Ableton UI bug when switching from Hz to semitone control.</li>
 <li>Fixed strange bounce to audio behaviour in some DAWs.</li>
 <li>Can manually enter a frequency (in Hz).</li>
+
+<h3>macOS fork 3.0.0</h3>
+<ul>
+<li>Double-click any knob to restore its factory default; Control/Ctrl-click remains supported.</li>
+<li>Hold <strong>Shift</strong> while dragging any knob for approximately 10× finer adjustment; Shift can be pressed or released during the same drag.</li>
+<li>Corrected the Note reset value to the E4 midpoint and the Depth reset value to 32.</li>
+<li>Added nine independent bird keyframe images from the supplied 3x3 sheet. Depth 0–7 shows keyframe 0, 8–15 shows keyframe 1, and so on; Depth 64 shows keyframe 8. The view jumps directly between source images, with no path redraw, interpolation, overlay, opacity crossfade or runtime animation.</li>
+<li>The nine source cells are the complete Depth states in strict reading order: 0, 8, 16, 24, 32, 40, 48, 56 and 64. The renderer only removes the grid/background and applies fixed whole-image placement; it does not redraw, blend or synthesize feather detail.</li>
+<li>Added a restrained “macOS version by komaki” credit linked to the fork repository while retaining GullDSP attribution.</li>
+</ul>
 
 <h3>Acknowledgements</h3>
 <ul>

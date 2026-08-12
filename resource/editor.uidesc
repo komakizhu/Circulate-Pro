@@ -2,6 +2,42 @@
 	"vstgui-ui-description": {
 		"version": "1",
 		"bitmaps": {
+			"depth-bird-keyframe-00": { "path": "bird/depth-bird-keyframe-00.png" },
+			"depth-bird-keyframe-01": { "path": "bird/depth-bird-keyframe-01.png" },
+			"depth-bird-keyframe-02": { "path": "bird/depth-bird-keyframe-02.png" },
+			"depth-bird-keyframe-03": { "path": "bird/depth-bird-keyframe-03.png" },
+			"depth-bird-keyframe-04": { "path": "bird/depth-bird-keyframe-04.png" },
+			"depth-bird-keyframe-05": { "path": "bird/depth-bird-keyframe-05.png" },
+			"depth-bird-keyframe-06": { "path": "bird/depth-bird-keyframe-06.png" },
+			"depth-bird-keyframe-07": { "path": "bird/depth-bird-keyframe-07.png" },
+			"depth-bird-keyframe-08": { "path": "bird/depth-bird-keyframe-08.png" },
+			"depth-bird-keyframe-00#2x": { "path": "bird/depth-bird-keyframe-00#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-01#2x": { "path": "bird/depth-bird-keyframe-01#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-02#2x": { "path": "bird/depth-bird-keyframe-02#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-03#2x": { "path": "bird/depth-bird-keyframe-03#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-04#2x": { "path": "bird/depth-bird-keyframe-04#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-05#2x": { "path": "bird/depth-bird-keyframe-05#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-06#2x": { "path": "bird/depth-bird-keyframe-06#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-07#2x": { "path": "bird/depth-bird-keyframe-07#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-08#2x": { "path": "bird/depth-bird-keyframe-08#2x.png", "scale-factor": "2" },
+			"depth-bird-keyframe-00#3x": { "path": "bird/depth-bird-keyframe-00#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-01#3x": { "path": "bird/depth-bird-keyframe-01#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-02#3x": { "path": "bird/depth-bird-keyframe-02#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-03#3x": { "path": "bird/depth-bird-keyframe-03#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-04#3x": { "path": "bird/depth-bird-keyframe-04#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-05#3x": { "path": "bird/depth-bird-keyframe-05#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-06#3x": { "path": "bird/depth-bird-keyframe-06#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-07#3x": { "path": "bird/depth-bird-keyframe-07#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-08#3x": { "path": "bird/depth-bird-keyframe-08#3x.png", "scale-factor": "3" },
+			"depth-bird-keyframe-00#4x": { "path": "bird/depth-bird-keyframe-00#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-01#4x": { "path": "bird/depth-bird-keyframe-01#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-02#4x": { "path": "bird/depth-bird-keyframe-02#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-03#4x": { "path": "bird/depth-bird-keyframe-03#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-04#4x": { "path": "bird/depth-bird-keyframe-04#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-05#4x": { "path": "bird/depth-bird-keyframe-05#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-06#4x": { "path": "bird/depth-bird-keyframe-06#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-07#4x": { "path": "bird/depth-bird-keyframe-07#4x.png", "scale-factor": "4" },
+			"depth-bird-keyframe-08#4x": { "path": "bird/depth-bird-keyframe-08#4x.png", "scale-factor": "4" },
 			"logo": {
 				"path": "logo.png",
 				"data": {
@@ -51,6 +87,10 @@
 			"Logo": {
 				"font-name": "Arial",
 				"size": "8"
+			},
+			"Credit": {
+				"font-name": "Arial",
+				"size": "7"
 			},
 			"ParamDisplay": {
 				"font-name": "Arial",
@@ -173,6 +213,19 @@
 					"wants-focus": "false"
 				},
 				"children": {
+					"CControl": {
+						"attributes": {
+							"class": "CControl",
+							"control-tag": "Depth",
+							"custom-view-name": "DepthBirdView",
+							"mouse-enabled": "false",
+							"opacity": "1",
+							"origin": "179, 2",
+							"size": "50, 50",
+							"transparent": "true",
+							"wants-focus": "false"
+						}
+					},
 					"CTextLabel": {
 						"attributes": {
 							"back-color": "~ TransparentCColor",
@@ -490,42 +543,16 @@
 							}
 						}
 					},
-					"CTextLabel": {
+					"CView": {
 						"attributes": {
-							"back-color": "~ TransparentCColor",
-							"background-offset": "0, 0",
-							"class": "CTextLabel",
-							"default-value": "0.5",
-							"font": "Logo",
-							"font-antialias": "true",
-							"font-color": "FG",
-							"frame-color": "~ BlackCColor",
-							"frame-width": "1",
-							"max-value": "1",
-							"min-value": "0",
+							"class": "CView",
+							"custom-view-name": "CreditLinkView",
 							"mouse-enabled": "true",
 							"opacity": "1",
-							"origin": "245, 140",
-							"round-rect-radius": "6",
-							"shadow-color": "~ RedCColor",
-							"size": "25, 20",
-							"style-3D-in": "false",
-							"style-3D-out": "false",
-							"style-no-draw": "false",
-							"style-no-frame": "true",
-							"style-no-text": "false",
-							"style-round-rect": "false",
-							"style-shadow-text": "false",
-							"text-alignment": "center",
-							"text-inset": "0, 0",
-							"text-rotation": "0",
-							"text-shadow-offset": "1, 1",
-							"title": "v2.0.1",
-							"transparent": "false",
-							"uidesc-label": "Title",
-							"value-precision": "2",
-							"wants-focus": "false",
-							"wheel-inc-value": "0.1"
+							"origin": "80, 140",
+							"size": "220, 20",
+							"transparent": "true",
+							"wants-focus": "false"
 						}
 					},
 					"CViewContainer": {
@@ -612,55 +639,6 @@
 									"zoom-factor": "1.5"
 								}
 							}
-						}
-					},
-					"CTextLabel": {
-						"attributes": {
-							"back-color": "~ TransparentCColor",
-							"background-offset": "0, 0",
-							"class": "CTextLabel",
-							"default-value": "0.5",
-							"font": "Logo",
-							"font-antialias": "true",
-							"font-color": "FG",
-							"frame-color": "~ BlackCColor",
-							"frame-width": "1",
-							"max-value": "1",
-							"min-value": "0",
-							"mouse-enabled": "true",
-							"opacity": "1",
-							"origin": "270, 140",
-							"round-rect-radius": "6",
-							"shadow-color": "~ RedCColor",
-							"size": "40, 20",
-							"style-3D-in": "false",
-							"style-3D-out": "false",
-							"style-no-draw": "false",
-							"style-no-frame": "true",
-							"style-no-text": "false",
-							"style-round-rect": "false",
-							"style-shadow-text": "false",
-							"text-alignment": "center",
-							"text-inset": "0, 0",
-							"text-rotation": "0",
-							"text-shadow-offset": "1, 1",
-							"title": "GullDSP",
-							"transparent": "false",
-							"value-precision": "2",
-							"wants-focus": "false",
-							"wheel-inc-value": "0.1"
-						}
-					},
-					"CView": {
-						"attributes": {
-							"bitmap": "logo",
-							"class": "CView",
-							"mouse-enabled": "true",
-							"opacity": "1",
-							"origin": "179, 2",
-							"size": "50, 50",
-							"transparent": "false",
-							"wants-focus": "false"
 						}
 					},
 					"CViewContainer": {

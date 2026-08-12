@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script minSpecVersion="1">
+    <title>Circulate</title>
+    <organization>GullDSP</organization>
+    <domains enable_anywhere="false" enable_currentUserHome="false" />
+    <options customize="always" rootVolumeOnly="true" />
+
+    <choices-outline>
+        <line choice="com.gulldsp.circulate.vst3.choice" />
+        <line choice="com.gulldsp.circulate.auv2.choice" />
+    </choices-outline>
+
+    <choice id="com.gulldsp.circulate.vst3.choice"
+            title="VST3 Plug-in"
+            description="Install Circulate as a VST3 plug-in for compatible hosts."
+            start_selected="true">
+        <pkg-ref id="com.gulldsp.circulate.vst3" />
+    </choice>
+
+    <choice id="com.gulldsp.circulate.auv2.choice"
+            title="AUv2 Plug-in"
+            description="Install Circulate as an Audio Unit v2 plug-in for Logic Pro and compatible hosts."
+            start_selected="true">
+        <pkg-ref id="com.gulldsp.circulate.auv2" />
+    </choice>
+
+    <pkg-ref id="com.gulldsp.circulate.vst3"
+             version="@VERSION@"
+             auth="Root">#Circulate-VST3.pkg</pkg-ref>
+    <pkg-ref id="com.gulldsp.circulate.auv2"
+             version="@VERSION@"
+             auth="Root">#Circulate-AUv2.pkg</pkg-ref>
+</installer-gui-script>

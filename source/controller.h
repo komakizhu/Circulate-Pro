@@ -8,6 +8,7 @@
 #include "CirculateParameters.h"
 #include "vstgui/plugin-bindings/vst3editor.h"
 #include "CustomEditor.h"
+#include "EditorViews.h"
 
 
 namespace CirculateVST {
@@ -37,6 +38,10 @@ public:
 	Steinberg::IPlugView* PLUGIN_API createView (Steinberg::FIDString name) SMTG_OVERRIDE;
 	Steinberg::tresult PLUGIN_API setState (Steinberg::IBStream* state) SMTG_OVERRIDE;
 	Steinberg::tresult PLUGIN_API getState (Steinberg::IBStream* state) SMTG_OVERRIDE;
+	VSTGUI::CView* createCustomView (VSTGUI::UTF8StringPtr name,
+		const VSTGUI::UIAttributes& attributes,
+		const VSTGUI::IUIDescription* description,
+		VSTGUI::VST3Editor* editor) override;
 
     // ... (at the end of your source/controller.cpp file) ...
 //------------------------------------------------------------------------

@@ -74,6 +74,9 @@ namespace CIRCULATE_PARAMS {
 		for (int i = 0; i < MAX_NOTE_NUM; i++) {
 			centerNoteParam->appendString(noteNames[i]);
 		}
+		// StringListParameter defaults to the first item. Keep the existing
+		// factory midpoint (E4) in both the VST3 metadata and current value.
+		centerNoteParam->getInfo().defaultNormalizedValue = DEFAULT_NOTE;
 		centerNoteParam->setNormalized(DEFAULT_NOTE);
 		parameters.addParameter(centerNoteParam);
 		
@@ -123,7 +126,7 @@ namespace CIRCULATE_PARAMS {
 			STR16("x"),                     
 			0,                            
 			MAX_NUM_STAGES,                         
-			DEFAULT_DEPTH,                           
+			DEFAULT_DEPTH * MAX_NUM_STAGES,
 			0, // Zero steps, we don't need the steps internally (it is cast to Int)
 			Steinberg::Vst::ParameterInfo::kNoFlags
 		);
@@ -414,4 +417,3 @@ namespace CIRCULATE_PARAMS {
 	};
 
 }
-

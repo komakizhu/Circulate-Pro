@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14.0)
+cmake_minimum_required(VERSION 3.17.0)
 
 option(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES "Enable VST 3 Plug-in Examples" OFF)
 option(SMTG_ENABLE_VST3_HOSTING_EXAMPLES "Enable VST 3 Hosting Examples" OFF)
@@ -16,7 +16,7 @@ project(Circulate
     # This is your plug-in version number. Change it here only.
     # Version number symbols usable in C++ can be found in
     # source/version.h and ${PROJECT_BINARY_DIR}/projectversion.h.
-    VERSION 2.0.0.0 
+    VERSION 3.0.0.0
     DESCRIPTION "Circulate VST 3 Plug-in"
 )
 
@@ -64,6 +64,7 @@ smtg_add_vst3plugin(Circulate
     source/processor.cpp
     source/controller.h
     source/controller.cpp
+    source/EditorViews.h
     source/entry.cpp
     build/DenormalProtection.h
 )
@@ -87,6 +88,47 @@ if(SMTG_ENABLE_VSTGUI_SUPPORT)
         RESOURCES
             "resource/editor.uidesc"
     )
+    smtg_target_add_plugin_resources(Circulate
+        RESOURCES
+            "resource/bird/depth-bird-keyframe-00.png"
+            "resource/bird/depth-bird-keyframe-01.png"
+            "resource/bird/depth-bird-keyframe-02.png"
+            "resource/bird/depth-bird-keyframe-03.png"
+            "resource/bird/depth-bird-keyframe-04.png"
+            "resource/bird/depth-bird-keyframe-05.png"
+            "resource/bird/depth-bird-keyframe-06.png"
+            "resource/bird/depth-bird-keyframe-07.png"
+            "resource/bird/depth-bird-keyframe-08.png"
+            "resource/bird/depth-bird-keyframe-00#2x.png"
+            "resource/bird/depth-bird-keyframe-01#2x.png"
+            "resource/bird/depth-bird-keyframe-02#2x.png"
+            "resource/bird/depth-bird-keyframe-03#2x.png"
+            "resource/bird/depth-bird-keyframe-04#2x.png"
+            "resource/bird/depth-bird-keyframe-05#2x.png"
+            "resource/bird/depth-bird-keyframe-06#2x.png"
+            "resource/bird/depth-bird-keyframe-07#2x.png"
+            "resource/bird/depth-bird-keyframe-08#2x.png"
+            "resource/bird/depth-bird-keyframe-00#3x.png"
+            "resource/bird/depth-bird-keyframe-01#3x.png"
+            "resource/bird/depth-bird-keyframe-02#3x.png"
+            "resource/bird/depth-bird-keyframe-03#3x.png"
+            "resource/bird/depth-bird-keyframe-04#3x.png"
+            "resource/bird/depth-bird-keyframe-05#3x.png"
+            "resource/bird/depth-bird-keyframe-06#3x.png"
+            "resource/bird/depth-bird-keyframe-07#3x.png"
+            "resource/bird/depth-bird-keyframe-08#3x.png"
+            "resource/bird/depth-bird-keyframe-00#4x.png"
+            "resource/bird/depth-bird-keyframe-01#4x.png"
+            "resource/bird/depth-bird-keyframe-02#4x.png"
+            "resource/bird/depth-bird-keyframe-03#4x.png"
+            "resource/bird/depth-bird-keyframe-04#4x.png"
+            "resource/bird/depth-bird-keyframe-05#4x.png"
+            "resource/bird/depth-bird-keyframe-06#4x.png"
+            "resource/bird/depth-bird-keyframe-07#4x.png"
+            "resource/bird/depth-bird-keyframe-08#4x.png"
+        OUTPUT_SUBDIRECTORY
+            "bird"
+    )
 endif(SMTG_ENABLE_VSTGUI_SUPPORT)
 # -------------------
 
@@ -108,6 +150,18 @@ if(SMTG_MAC)
         BUNDLE_IDENTIFIER com.circulate.gulldsp
         COMPANY_NAME "GullDSP"
     )
+    # SMTG_Bundle currently populates these standard bundle fields only for
+    # the Xcode generator. Keep Unix Makefiles release bundles versioned too.
+    if(NOT XCODE)
+        set_target_properties(Circulate
+            PROPERTIES
+                MACOSX_BUNDLE_GUI_IDENTIFIER com.circulate.gulldsp
+                MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+                MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+                MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}"
+                MACOSX_BUNDLE_INFO_STRING "${PROJECT_VERSION}"
+        )
+    endif()
     smtg_target_set_debug_executable(Circulate
         "/Applications/VST3PluginTestHost.app"
         "--pluginfolder;$(BUILT_PRODUCTS_DIR)"
