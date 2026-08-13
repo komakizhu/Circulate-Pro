@@ -79,6 +79,8 @@ jobs:
           set -euo pipefail
           cmake -S . -B build-macos -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CXX_STANDARD=17 \
+            -DCMAKE_CXX_STANDARD_REQUIRED=ON \
             -DCIRCULATE_VERSION="${VERSION}.0" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
             -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
@@ -94,6 +96,8 @@ jobs:
           set -euo pipefail
           cmake -S . -B build-macos-au -G Xcode \
             -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CXX_STANDARD=17 \
+            -DCMAKE_CXX_STANDARD_REQUIRED=ON \
             -DCIRCULATE_VERSION="${VERSION}.0" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
             -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
