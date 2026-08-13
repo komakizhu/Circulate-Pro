@@ -120,6 +120,8 @@ jobs:
           mkdir -p outputs
           ditto build-macos/VST3/Release/Circulate.vst3 outputs/Circulate.vst3
           test -d outputs/Circulate.component
+          codesign --force --deep --sign - outputs/Circulate.vst3
+          codesign --force --deep --sign - outputs/Circulate.component
           ./packaging/build-release.sh
 
       - name: Verify macOS bundles and packages
