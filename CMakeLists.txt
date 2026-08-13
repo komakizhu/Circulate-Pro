@@ -23,12 +23,15 @@ project(Circulate
 )
 
 # The bundled VST3 SDK has a few targets whose sources are not assigned a
-# target-level language standard. Set the project-wide standard explicitly so
-# clean builds use the same C++ mode as the plugin and do not fall back to the
-# compiler's legacy default.
+# target-level language standard. Set the project-wide C++ and Objective-C++
+# standards explicitly so clean builds do not fall back to the compiler's
+# legacy default for SDK sources such as threadchecker_mac.mm.
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_OBJCXX_STANDARD 17)
+set(CMAKE_OBJCXX_STANDARD_REQUIRED ON)
+set(CMAKE_OBJCXX_EXTENSIONS OFF)
 
 if(CIRCULATE_ENABLE_AUV2)
     set(CIRCULATE_AUDIOUNIT_SDK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/third_party/AudioUnitSDK" CACHE PATH
