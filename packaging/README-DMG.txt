@@ -1,7 +1,7 @@
 Circulate macOS Universal 安装包
 ================================
 
-版本：3.0.0
+版本：3.0.1
 格式：VST3 + AUv2
 架构：Universal 2（Apple Silicon arm64 + Intel x86_64）
 最低系统：macOS 11.0
@@ -47,7 +47,7 @@ Circulate macOS Universal 安装包
 Circulate 按 GPL-3.0 发布。请阅读“3 Copyright/GPL-3.0-License.txt”，并从以下地址获取源码和
 本 macOS 兼容修改：
 
-  3.0.0 adds knob double-click reset, corrects the Note and Depth factory defaults,
+  3.0.1 adds knob double-click reset, corrects the Note and Depth factory defaults,
   supports approximately 10x fine knob adjustment while holding Shift during a drag,
   and adds nine independent stepped keyframes from the supplied 3x3 raster sheet.
   The supplied head/body changes are preserved; each complete bird is moved upward

@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **Fork / macOS 版本说明：** 本仓库是 [GullDSP/Circulate-VST](https://github.com/GullDSP/Circulate-VST) 的 macOS fork。当前版本为 3.0.0，源代码基于上游 commit `65236c9`（原仓库中的 `v2.0.1.1`）。本 fork 增加了 Intel 与 Apple Silicon 通用的 Universal 2 VST3/AUv2 构建、macOS PKG/DMG 打包、旋钮双击回正、默认值修复及由用户提供的九张独立关键帧图；原有 DSP 算法保持不变。
+> **Fork / macOS 版本说明：** 本仓库是 [GullDSP/Circulate-VST](https://github.com/GullDSP/Circulate-VST) 的 macOS fork。当前版本为 3.0.1，源代码基于上游 commit `65236c9`（原仓库中的 `v2.0.1.1`）。本 fork 增加了 Intel 与 Apple Silicon 通用的 Universal 2 VST3/AUv2 构建、macOS PKG/DMG 打包、旋钮双击回正、默认值修复及由用户提供的九张独立关键帧图；原有 DSP 算法保持不变。
 
 Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波器不改变频谱幅度，但会在选定中心频率附近产生选择性的相位偏移，从而形成空洞、金属感和短混响般的听感。该效果在贝斯 Stab、鼓击和 Pluck 等瞬态素材上最明显。
 
@@ -49,7 +49,7 @@ Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波�
 - 修复部分 DAW 中导出音频时的异常行为。
 - 支持手动输入 Hz 频率。
 
-## macOS fork 3.0.0
+## macOS fork 3.0.1
 
 - 双击任意旋钮可恢复出厂默认值，同时保留 Control/Ctrl-click 回正。
 - 拖动任意旋钮时按住 **Shift** 可进行约 10 倍阻尼的细微调整；拖动过程中也可以随时按下或释放 Shift。

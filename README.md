@@ -1,6 +1,6 @@
 <h1><strong>Circulate</strong></h1>
 <p><a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
-<p><strong>Fork / macOS version:</strong> This repository is a macOS-focused fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. Version 3.0.0 is based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). This fork adds Universal 2 VST3/AUv2 builds, macOS PKG/DMG packaging, knob double-click reset, corrected factory defaults, and nine independent raster keyframes supplied by the author while preserving the original DSP.</p>
+<p><strong>Fork / macOS version:</strong> This repository is a macOS-focused fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. Version 3.0.1 is based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). This fork adds Universal 2 VST3/AUv2 builds, macOS PKG/DMG packaging, knob double-click reset, corrected factory defaults, and nine independent raster keyframes supplied by the author while preserving the original DSP.</p>
 <p>Circulate is an allpass filter-based phase dispersion effect. The allpass filters, while leaving the frequency spectrum untouched, cause selective phase offsets around the chosen center frequency. These offsets present themselves as hollow and metallic short reverberation-like effects, useful for adding a dynamic metallic character to sounds. The effect is most pronounced on transient material, such as bass stabs, drum hits and plucks.</p>
 <img width="660" height="398" alt="Circulate macOS preview" src="resource/readme/circulate-macos-preview.png" />
 
@@ -38,7 +38,7 @@ www.youtube.com/watch?v=tcsrC33vn1s&t=1s
 <li>Fixed strange bounce to audio behaviour in some DAWs.</li>
 <li>Can manually enter a frequency (in Hz).</li>
 
-<h3>macOS fork 3.0.0</h3>
+<h3>macOS fork 3.0.1</h3>
 <ul>
 <li>Double-click any knob to restore its factory default; Control/Ctrl-click remains supported.</li>
 <li>Hold <strong>Shift</strong> while dragging any knob for approximately 10× finer adjustment; Shift can be pressed or released during the same drag.</li>
