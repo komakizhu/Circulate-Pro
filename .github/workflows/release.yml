@@ -259,3 +259,4 @@ jobs:
               --target "${TARGET_SHA}" \
               --title "Circulate Pro ${VERSION}" \
               --notes "Circulate Pro ${VERSION} unified macOS and Windows release.\n\nmacOS: Universal 2 VST3/AUv2 DMG and PKG.\nWindows: x64 VST3 EXE installer.\n\nThe plug-in identity remains Circulate for compatibility with existing projects."
+          fi
