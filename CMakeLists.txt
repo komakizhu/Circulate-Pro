@@ -70,6 +70,17 @@ endif()
 add_subdirectory(${vst3sdk_SOURCE_DIR} ${PROJECT_BINARY_DIR}/vst3sdk)
 smtg_enable_vst3_sdk()
 
+# The SDK's sdk_common target contains Objective-C++ sources but does not set a
+# language standard on that target. Keep this explicit because some CMake/Xcode
+# combinations otherwise compile threadchecker_mac.mm in the compiler's legacy
+# mode even when the project-wide standard variables are set.
+if(APPLE AND TARGET sdk_common)
+    target_compile_options(sdk_common
+        PRIVATE
+            "$<$<COMPILE_LANGUAGE:OBJCXX>:-std=c++17>"
+    )
+endif()
+
 smtg_add_vst3plugin(Circulate
     source/version.h
     source/cids.h
