@@ -4,20 +4,22 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUTPUT_DIR="${CIRCULATE_OUTPUT_DIR:-${PROJECT_DIR}/outputs}"
 VERSION="${CIRCULATE_VERSION:-3.0.0}"
+PRODUCT_NAME="${CIRCULATE_PRODUCT_NAME:-Circulate Pro}"
+PRODUCT_SLUG="${CIRCULATE_PRODUCT_SLUG:-Circulate-Pro}"
 VST3_SOURCE="${CIRCULATE_VST3_SOURCE:-${OUTPUT_DIR}/Circulate.vst3}"
 AU_SOURCE="${CIRCULATE_AU_SOURCE:-${OUTPUT_DIR}/Circulate.component}"
 APPLICATION_IDENTITY="${CIRCULATE_DEVELOPER_ID_APPLICATION:-}"
 INSTALLER_IDENTITY="${CIRCULATE_DEVELOPER_ID_INSTALLER:-}"
 NOTARY_PROFILE="${CIRCULATE_NOTARY_PROFILE:-}"
 
-PKG_NAME="Circulate-macOS-${VERSION}-Universal.pkg"
-DMG_NAME="Circulate-macOS-${VERSION}-Universal.dmg"
+PKG_NAME="${PRODUCT_SLUG}-${VERSION}-macOS-Universal.pkg"
+DMG_NAME="${PRODUCT_SLUG}-${VERSION}-macOS-Universal.dmg"
 FINAL_PKG="${OUTPUT_DIR}/${PKG_NAME}"
 FINAL_DMG="${OUTPUT_DIR}/${DMG_NAME}"
 DMG_README_NAME="1 README.txt"
-DMG_INSTALLER_NAME="2 Install Circulate.pkg"
+DMG_INSTALLER_NAME="2 Install ${PRODUCT_NAME}.pkg"
 DMG_COPYRIGHT_NAME="3 Copyright"
-DMG_UNINSTALLER_NAME="4 Circulate Uninstaller.app"
+DMG_UNINSTALLER_NAME="4 ${PRODUCT_NAME} Uninstaller.app"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
     echo "This release builder requires macOS." >&2
@@ -87,6 +89,7 @@ VST3_PACKAGE_ROOT="${WORK_DIR}/vst3-package-root/Library/Audio/Plug-Ins/VST3"
 AU_PACKAGE_ROOT="${WORK_DIR}/au-package-root/Library/Audio/Plug-Ins/Components"
 AU_PACKAGE_SCRIPTS="${WORK_DIR}/au-package-scripts"
 DISTRIBUTION_XML="${WORK_DIR}/installer-distribution.xml"
+DMG_README_SOURCE="${WORK_DIR}/README-DMG.txt"
 DMG_ROOT="${WORK_DIR}/dmg-root"
 COPYRIGHT_DIR="${DMG_ROOT}/${DMG_COPYRIGHT_NAME}"
 UNSIGNED_PKG="${WORK_DIR}/Circulate-unsigned.pkg"
@@ -143,7 +146,7 @@ verify_universal_bundle "${STAGED_AU}" 1
     --install-location /Library/Audio/Plug-Ins/Components \
     "${AU_COMPONENT_PKG}"
 
-/usr/bin/sed "s/@VERSION@/${VERSION}/g" \
+/usr/bin/sed -e "s/@VERSION@/${VERSION}/g" -e "s/@PRODUCT_NAME@/${PRODUCT_NAME}/g" \
     "${PROJECT_DIR}/packaging/installer-distribution.xml.in" > "${DISTRIBUTION_XML}"
 /usr/bin/productbuild \
     --distribution "${DISTRIBUTION_XML}" \
@@ -182,15 +185,20 @@ done
 
 if [[ -n "${APPLICATION_IDENTITY}" ]]; then
     /usr/bin/codesign --force --options runtime --timestamp \
-        --sign "${APPLICATION_IDENTITY}" "${UNINSTALLER_APP}"
+        --sign "${APPLICATION_IDENTITY}" "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
+    /usr/bin/codesign --force --options runtime --timestamp \
+        --deep --sign "${APPLICATION_IDENTITY}" "${UNINSTALLER_APP}"
 else
-    /usr/bin/codesign --force --sign - "${UNINSTALLER_APP}"
+    /usr/bin/codesign --force --sign - "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
+    /usr/bin/codesign --force --deep --sign - "${UNINSTALLER_APP}"
 fi
 /usr/bin/xattr -rc "${UNINSTALLER_APP}" 2>/dev/null || true
 /usr/bin/codesign --verify --deep --strict "${UNINSTALLER_APP}"
 
 /usr/bin/ditto --norsrc "${FINAL_PKG}" "${DMG_ROOT}/${DMG_INSTALLER_NAME}"
-/usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/README-DMG.txt" "${DMG_ROOT}/${DMG_README_NAME}"
+/usr/bin/sed -e "s/@VERSION@/${VERSION}/g" -e "s/@PRODUCT_NAME@/${PRODUCT_NAME}/g" \
+    "${PROJECT_DIR}/packaging/README-DMG.txt" > "${DMG_README_SOURCE}"
+/usr/bin/ditto --norsrc "${DMG_README_SOURCE}" "${DMG_ROOT}/${DMG_README_NAME}"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/LICENSE.txt" "${COPYRIGHT_DIR}/GPL-3.0-License.txt"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/SOURCE-AND-MODIFICATIONS.txt" "${COPYRIGHT_DIR}/Source-and-Modifications.txt"
 
@@ -208,7 +216,7 @@ fi
 /usr/bin/hdiutil makehybrid \
     -o "${RAW_DMG}" \
     -hfs \
-    -hfs-volume-name "Circulate Installer" \
+    -hfs-volume-name "Circulate Pro Installer" \
     "${DMG_ROOT}"
 /usr/bin/hdiutil convert "${RAW_DMG}" \
     -format UDZO \

@@ -1,66 +1,85 @@
-name: Build and publish macOS release
+name: Build and publish Circulate Pro
 
 on:
   push:
     tags:
-      - 'v*-macos'
+      - 'v*-pro'
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Existing v<version>-macos tag to build'
+      version:
+        description: 'Circulate Pro version, for example 3.0.0'
         required: true
+        default: '3.0.0'
         type: string
 
 permissions:
   contents: write
 
 concurrency:
-  group: macos-release-${{ github.ref }}
+  group: circulate-pro-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  build-and-publish:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+      tag: ${{ steps.resolve.outputs.tag }}
+      ref: ${{ steps.resolve.outputs.ref }}
+    steps:
+      - name: Resolve version and source ref
+        id: resolve
+        shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          REF_NAME: ${{ github.ref_name }}
+          WORKFLOW_REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${INPUT_VERSION}" ]]; then
+            version="${INPUT_VERSION}"
+            source_ref="${WORKFLOW_REF}"
+          elif [[ "${REF_NAME}" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-pro$ ]]; then
+            version="${BASH_REMATCH[1]}"
+            source_ref="${WORKFLOW_REF}"
+          else
+            echo "Expected a v<version>-pro tag or a workflow_dispatch version" >&2
+            exit 1
+          fi
+          if [[ ! "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Expected a three-part version, got: ${version}" >&2
+            exit 1
+          fi
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          echo "tag=v${version}-pro" >> "${GITHUB_OUTPUT}"
+          echo "ref=${source_ref}" >> "${GITHUB_OUTPUT}"
+          echo "Building Circulate Pro ${version} from ${source_ref}"
+
+  macos:
+    needs: prepare
     runs-on: macos-14
     env:
       GH_TOKEN: ${{ github.token }}
       CMAKE_BUILD_PARALLEL_LEVEL: 2
+      VERSION: ${{ needs.prepare.outputs.version }}
+      CIRCULATE_VERSION: ${{ needs.prepare.outputs.version }}
 
     steps:
       - name: Check out source and submodules
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag || github.ref }}
+          ref: ${{ needs.prepare.outputs.ref }}
           submodules: recursive
           fetch-depth: 0
 
-      - name: Resolve release tag and version
-        id: release
-        shell: bash
-        env:
-          INPUT_TAG: ${{ inputs.tag }}
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          set -euo pipefail
-          tag="${INPUT_TAG:-${REF_NAME}}"
-          if [[ ! "$tag" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-macos$ ]]; then
-            echo "Expected tag format v<major>.<minor>.<patch>-macos, got: $tag" >&2
-            exit 1
-          fi
-          version="${tag#v}"
-          version="${version%-macos}"
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "Building $tag as version $version"
-
       - name: Configure Universal 2 VST3
         shell: bash
-        env:
-          RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
           set -euo pipefail
           cmake -S . -B build-macos -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCIRCULATE_VERSION="${RELEASE_VERSION}.0" \
+            -DCIRCULATE_VERSION="${VERSION}.0" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
             -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
             -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
@@ -71,13 +90,11 @@ jobs:
 
       - name: Configure Universal 2 AUv2
         shell: bash
-        env:
-          RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
           set -euo pipefail
           cmake -S . -B build-macos-au -G Xcode \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCIRCULATE_VERSION="${RELEASE_VERSION}.0" \
+            -DCIRCULATE_VERSION="${VERSION}.0" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
             -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
             -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
@@ -88,60 +105,147 @@ jobs:
       - name: Build Universal 2 AUv2
         run: cmake --build build-macos-au --config Release
 
-      - name: Stage bundles and verify plugin version
-        id: stage
+      - name: Stage bundles and build Circulate Pro DMG/PKG
         shell: bash
-        env:
-          RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
           set -euo pipefail
           mkdir -p outputs
           ditto build-macos/VST3/Release/Circulate.vst3 outputs/Circulate.vst3
           test -d outputs/Circulate.component
-          expected="${RELEASE_VERSION}.0"
-          actual="$(awk -F'"' '/"Version":/ {print $4}' \
-            build-macos/VST3/Release/Circulate.vst3/Contents/Resources/moduleinfo.json | sort -u)"
-          if [[ "$actual" != "$expected" ]]; then
-            echo "release tag version $expected does not match moduleinfo versions $actual" >&2
-            exit 1
-          fi
+          ./packaging/build-release.sh
 
-      - name: Build PKG and DMG
-        env:
-          CIRCULATE_VERSION: ${{ steps.release.outputs.version }}
-        run: ./packaging/build-release.sh
-
-      - name: Verify Universal 2 and DMG
+      - name: Verify macOS bundles and packages
         shell: bash
-        env:
-          RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
           set -euo pipefail
+          expected="${VERSION}.0"
+          actual="$(awk -F'"' '/"Version":/ {print $4}' \
+            build-macos/VST3/Release/Circulate.vst3/Contents/Resources/moduleinfo.json | sort -u)"
+          [[ "${actual}" == "${expected}" ]]
           for binary in \
             outputs/Circulate.vst3/Contents/MacOS/Circulate \
             outputs/Circulate.component/Contents/MacOS/Circulate \
             outputs/Circulate.component/Contents/Resources/plugin.vst3/Contents/MacOS/Circulate; do
-            lipo -verify_arch arm64 x86_64 "$binary"
+            lipo "${binary}" -verify_arch arm64 x86_64
           done
           codesign --verify --deep --strict outputs/Circulate.vst3
           codesign --verify --deep --strict outputs/Circulate.component
           test "$(find outputs/Circulate.component/Contents/Resources/plugin.vst3 -type l | wc -l | tr -d ' ')" = 0
-          hdiutil verify "outputs/Circulate-macOS-${RELEASE_VERSION}-Universal.dmg"
+          test -f "outputs/Circulate-Pro-${VERSION}-macOS-Universal.dmg"
+          test -f "outputs/Circulate-Pro-${VERSION}-macOS-Universal.pkg"
+          hdiutil verify "outputs/Circulate-Pro-${VERSION}-macOS-Universal.dmg"
 
-      - name: Create or update GitHub Release
+      - name: Upload macOS release assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: circulate-pro-macos
+          path: |
+            outputs/Circulate-Pro-${{ needs.prepare.outputs.version }}-macOS-Universal.dmg
+            outputs/Circulate-Pro-${{ needs.prepare.outputs.version }}-macOS-Universal.pkg
+          if-no-files-found: error
+
+  windows:
+    needs: prepare
+    runs-on: windows-2022
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      VERSION: ${{ needs.prepare.outputs.version }}
+
+    steps:
+      - name: Check out source and submodules
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.ref }}
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Configure Windows VST3
+        shell: pwsh
+        run: |
+          $fullVersion = "$env:VERSION.0"
+          cmake -S . -B build-windows -G "Visual Studio 17 2022" -A x64 `
+            -DCMAKE_CONFIGURATION_TYPES=Release `
+            -DCIRCULATE_VERSION="$fullVersion" `
+            -DSMTG_ENABLE_VSTGUI_SUPPORT=ON `
+            -DSMTG_CREATE_PLUGIN_LINK=OFF `
+            -DSMTG_CREATE_BUNDLE_FOR_WINDOWS=ON `
+            -DSMTG_RUN_VST_VALIDATOR=OFF
+
+      - name: Build Windows VST3
+        shell: pwsh
+        run: cmake --build build-windows --config Release --target Circulate -- /m:2
+
+      - name: Validate and package Windows EXE
+        shell: pwsh
+        run: |
+          $plugin = Join-Path $env:GITHUB_WORKSPACE "build-windows\VST3\Release\Circulate.vst3"
+          $fullVersion = "$env:VERSION.0"
+          $binary = Join-Path $plugin "Contents\x86_64-win\Circulate.vst3"
+          if (-not (Test-Path -LiteralPath $binary)) { throw "Missing Windows VST3 binary: $binary" }
+          if (-not (Test-Path -LiteralPath (Join-Path $plugin "Contents\Resources\editor.uidesc"))) { throw "Missing editor.uidesc" }
+          if (-not (Get-Command makensis.exe -ErrorAction SilentlyContinue)) { choco install nsis --yes --no-progress }
+          $outDir = Join-Path $env:GITHUB_WORKSPACE "outputs"
+          $outFile = Join-Path $outDir "Circulate-Pro-$env:VERSION-Windows-VST3-Setup.exe"
+          New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+          & (Get-Command makensis.exe).Source `
+            "/DOUTFILE=$outFile" `
+            "/DPLUGIN_STAGE=$plugin" `
+            "/DPLUGIN_ICON=$(Join-Path $plugin 'PlugIn.ico')" `
+            "/DLICENSE_FILE=$(Join-Path $env:GITHUB_WORKSPACE 'LICENSE.txt')" `
+            "/DCIRCULATE_VERSION=$fullVersion" `
+            "/DPRODUCT_NAME=Circulate Pro" `
+            (Join-Path $env:GITHUB_WORKSPACE "packaging\windows-installer.nsi")
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path -LiteralPath $outFile)) { throw "NSIS did not create $outFile" }
+
+      - name: Upload Windows release asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: circulate-pro-windows
+          path: outputs/Circulate-Pro-${{ needs.prepare.outputs.version }}-Windows-VST3-Setup.exe
+          if-no-files-found: error
+
+  publish:
+    needs: [prepare, macos, windows]
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ needs.prepare.outputs.tag }}
+      VERSION: ${{ needs.prepare.outputs.version }}
+
+    steps:
+      - name: Download macOS assets
+        uses: actions/download-artifact@v4
+        with:
+          name: circulate-pro-macos
+          path: release-assets
+
+      - name: Download Windows asset
+        uses: actions/download-artifact@v4
+        with:
+          name: circulate-pro-windows
+          path: release-assets
+
+      - name: Create or update Circulate Pro Release
+        shell: bash
         env:
-          TAG: ${{ steps.release.outputs.tag }}
-          VERSION: ${{ steps.release.outputs.version }}
+          REPOSITORY: ${{ github.repository }}
+          TARGET_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          dmg="outputs/Circulate-macOS-${VERSION}-Universal.dmg"
-          pkg="outputs/Circulate-macOS-${VERSION}-Universal.pkg"
-          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$dmg" "$pkg" --repo "$GITHUB_REPOSITORY" --clobber
+          assets=(
+            "release-assets/Circulate-Pro-${VERSION}-macOS-Universal.dmg"
+            "release-assets/Circulate-Pro-${VERSION}-macOS-Universal.pkg"
+            "release-assets/Circulate-Pro-${VERSION}-Windows-VST3-Setup.exe"
+          )
+          for asset in "${assets[@]}"; do
+            test -f "${asset}"
+          done
+          if gh release view "${TAG}" --repo "${REPOSITORY}" >/dev/null 2>&1; then
+            gh release upload "${TAG}" "${assets[@]}" --repo "${REPOSITORY}" --clobber
           else
-            gh release create "$TAG" "$dmg" "$pkg" \
-              --repo "$GITHUB_REPOSITORY" \
-              --title "Circulate macOS ${VERSION}" \
-              --generate-notes \
-              --notes "Universal 2 macOS VST3/AUv2 release. Depth uses nine supplied keyframes in strict order, held in eight-value bands with direct jumps and no runtime interpolation."
-          fi
+            gh release create "${TAG}" "${assets[@]}" \
+              --repo "${REPOSITORY}" \
+              --target "${TARGET_SHA}" \
+              --title "Circulate Pro ${VERSION}" \
+              --notes "Circulate Pro ${VERSION} unified macOS and Windows release.\n\nmacOS: Universal 2 VST3/AUv2 DMG and PKG.\nWindows: x64 VST3 EXE installer.\n\nThe plug-in identity remains Circulate for compatibility with existing projects."

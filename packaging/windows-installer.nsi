@@ -3,7 +3,10 @@ RequestExecutionLevel admin
 !ifndef CIRCULATE_VERSION
   !define CIRCULATE_VERSION "3.0.0.0"
 !endif
-Name "Circulate VST3 ${CIRCULATE_VERSION}"
+!ifndef PRODUCT_NAME
+  !define PRODUCT_NAME "Circulate Pro"
+!endif
+Name "${PRODUCT_NAME} VST3 ${CIRCULATE_VERSION}"
 OutFile "${OUTFILE}"
 InstallDir "$PROGRAMFILES64\Common Files\VST3\Circulate.vst3"
 InstallDirRegKey HKLM "Software\GullDSP\Circulate" "InstallDir"
@@ -12,10 +15,10 @@ ShowInstDetails show
 ShowUninstDetails show
 
 VIProductVersion "${CIRCULATE_VERSION}"
-VIAddVersionKey "ProductName" "Circulate VST3"
+VIAddVersionKey "ProductName" "${PRODUCT_NAME} VST3"
 VIAddVersionKey "CompanyName" "GullDSP"
 VIAddVersionKey "LegalCopyright" "GPL-3.0"
-VIAddVersionKey "FileDescription" "Circulate VST3 Windows Installer"
+VIAddVersionKey "FileDescription" "${PRODUCT_NAME} VST3 Windows Installer"
 VIAddVersionKey "FileVersion" "${CIRCULATE_VERSION}"
 
 !include "MUI2.nsh"
@@ -31,7 +34,7 @@ VIAddVersionKey "FileVersion" "${CIRCULATE_VERSION}"
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_LANGUAGE "English"
 
-Section "Circulate VST3" SEC_MAIN
+Section "${PRODUCT_NAME} VST3" SEC_MAIN
   SetOutPath "$INSTDIR\Contents"
   File /r "${PLUGIN_STAGE}\Contents\*"
   SetOutPath "$INSTDIR"
@@ -39,12 +42,12 @@ Section "Circulate VST3" SEC_MAIN
   File "${PLUGIN_STAGE}\PlugIn.ico"
   SetRegView 64
   WriteRegStr HKLM "Software\GullDSP\Circulate" "InstallDir" "$INSTDIR"
-  WriteUninstaller "$INSTDIR\Uninstall Circulate.exe"
+  WriteUninstaller "$INSTDIR\Uninstall Circulate Pro.exe"
 SectionEnd
 
 Section "Uninstall"
   SetRegView 64
-  Delete "$INSTDIR\Uninstall Circulate.exe"
+  Delete "$INSTDIR\Uninstall Circulate Pro.exe"
   RMDir /r "$INSTDIR\Contents"
   Delete "$INSTDIR\desktop.ini"
   Delete "$INSTDIR\PlugIn.ico"

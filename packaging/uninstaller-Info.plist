@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
-	<string>Circulate Uninstaller</string>
+	<string>Circulate Pro Uninstaller</string>
 	<key>CFBundleExecutable</key>
-	<string>Circulate Uninstaller</string>
+	<string>Circulate Pro Uninstaller</string>
 	<key>CFBundleIconFile</key>
 	<string>CirculateUninstaller.icns</string>
 	<key>CFBundleIconName</key>

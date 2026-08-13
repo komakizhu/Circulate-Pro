@@ -7,7 +7,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "卸载 Circulate"
+        alert.messageText = "卸载 Circulate Pro"
         alert.informativeText = "这将移除系统级安装的 Circulate VST3 和 AUv2 插件。Logic/Ableton 工程、用户预设及其他插件不会被删除。"
         alert.alertStyle = .warning
         alert.addButton(withTitle: "卸载")
@@ -38,7 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             try process.run()
             process.waitUntilExit()
             if process.terminationStatus == 0 {
-                showResult(title: "卸载完成", message: "Circulate 的系统级 VST3 和 AUv2 插件已移除。", terminate: true)
+                showResult(title: "卸载完成", message: "Circulate Pro 的系统级 VST3 和 AUv2 插件已移除。", terminate: true)
             } else {
                 showResult(title: "卸载未完成", message: "管理员授权被取消，或卸载脚本执行失败。", terminate: true)
             }

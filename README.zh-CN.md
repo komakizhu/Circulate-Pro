@@ -1,8 +1,8 @@
-# Circulate
+# Circulate Pro
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **Fork / macOS 版本说明：** 本仓库是 [GullDSP/Circulate-VST](https://github.com/GullDSP/Circulate-VST) 的 macOS fork。当前版本为 3.0.0，源代码基于上游 commit `65236c9`（原仓库中的 `v2.0.1.1`）。本 fork 增加了 Intel 与 Apple Silicon 通用的 Universal 2 VST3/AUv2 构建、macOS PKG/DMG 打包、旋钮双击回正、默认值修复及由用户提供的九张独立关键帧图；原有 DSP 算法保持不变。
+> **Circulate Pro 3.0.0：** 本项目是 [GullDSP/Circulate-VST](https://github.com/GullDSP/Circulate-VST) 的跨平台 fork，源代码基于上游 commit `65236c9`（原仓库中的 `v2.0.1.1`）。本 fork 同时提供 Intel/Apple Silicon Universal 2 的 macOS VST3/AUv2、Windows x64 VST3 EXE 安装包、旋钮双击回正、默认值修复和九张独立关键帧图；原有 DSP 算法保持不变。
 
 Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波器不改变频谱幅度，但会在选定中心频率附近产生选择性的相位偏移，从而形成空洞、金属感和短混响般的听感。该效果在贝斯 Stab、鼓击和 Pluck 等瞬态素材上最明显。
 
@@ -10,13 +10,9 @@ Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波�
 
 ## 下载
 
-### macOS Universal 2
+### Circulate Pro 3.0.0（macOS + Windows）
 
-[PKG / DMG 发布页](https://github.com/komakizhu/Circulate-VST-macOS/releases)，支持 Intel 与 Apple Silicon。
-
-### Windows 3.0.0 EXE 安装程序
-
-[下载 Circulate-Windows-VST3-Setup-3.0.0.exe](https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v3.0.0-windows/Circulate-Windows-VST3-Setup-3.0.0.exe)。这是使用本 fork 修改后源码构建的 3.0.0 版本；运行安装程序后，VST3 会安装到 Windows 标准目录 `Common Files\VST3`，同时创建卸载入口。
+[统一 Release 发布页](https://github.com/komakizhu/Circulate-VST-macOS/releases/tag/v3.0.0-pro)：包含 macOS Universal 2 的 DMG/PKG，以及 Windows x64 的 EXE 安装包。
 
 ### Windows 原版 ZIP
 
@@ -49,7 +45,7 @@ Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波�
 - 修复部分 DAW 中导出音频时的异常行为。
 - 支持手动输入 Hz 频率。
 
-## macOS fork 3.0.0
+## Circulate Pro 3.0.0 修改内容
 
 - 双击任意旋钮可恢复出厂默认值，同时保留 Control/Ctrl-click 回正。
 - 拖动任意旋钮时按住 **Shift** 可进行约 10 倍阻尼的细微调整；拖动过程中也可以随时按下或释放 Shift。
@@ -88,9 +84,9 @@ cmake --build build-macos-au --config Release
 
 当两个 bundle 都位于 `outputs/` 后，运行 `packaging/build-release.sh` 可生成 Universal 2 PKG 和 DMG。PKG 安装目标为系统级音频插件目录。
 
-## 自动发布 GitHub Release
+## 自动发布 Circulate Pro Release
 
-对 fork 使用 SSH 推送类似 `v3.0.0-macos` 的标签。仓库中的 GitHub Actions 会在 macOS runner 上构建 Universal 2 VST3/AUv2、生成 DMG 和 PKG，并自动创建或更新 GitHub Release。上传使用仓库级 Actions `GITHUB_TOKEN` 和 `contents: write` 权限，不需要个人 Token，也不需要每次进行浏览器设备登录。
+对 fork 使用 SSH 推送类似 `v3.0.0-pro` 的标签。仓库中的单一 GitHub Actions workflow 会并行构建 macOS Universal 2 VST3/AUv2 与 Windows x64 VST3 EXE，然后自动创建或更新同一个 Circulate Pro Release。上传使用仓库级 Actions `GITHUB_TOKEN` 和 `contents: write` 权限，不需要个人 Token，也不需要每次进行浏览器设备登录。
 
 ## 许可与致谢
 

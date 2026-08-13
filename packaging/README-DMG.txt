@@ -1,7 +1,7 @@
-Circulate macOS Universal 安装包
+@PRODUCT_NAME@ macOS Universal 安装包
 ================================
 
-版本：3.0.0
+版本：@VERSION@
 格式：VST3 + AUv2
 架构：Universal 2（Apple Silicon arm64 + Intel x86_64）
 最低系统：macOS 11.0
@@ -11,7 +11,7 @@ Circulate macOS Universal 安装包
 
 安装
 ----
-双击“2 Install Circulate.pkg”，按 Installer 提示授权。在“安装类型”页面点击
+双击“2 Install @PRODUCT_NAME@.pkg”，按 Installer 提示授权。在“安装类型”页面点击
 “自定义”，可分别勾选 VST3 Plug-in 和 AUv2 Plug-in；默认两项都会选中。插件会安装到：
 
   /Library/Audio/Plug-Ins/VST3/Circulate.vst3
@@ -21,7 +21,7 @@ Circulate macOS Universal 安装包
 
 卸载
 ----
-双击“4 Circulate Uninstaller.app”，确认后输入管理员密码。它只删除 Circulate 的
+双击“4 @PRODUCT_NAME@ Uninstaller.app”，确认后输入管理员密码。它只删除 Circulate 的
 两个插件和安装收据，不删除工程、预设或其他厂商插件。
 
 安全提示

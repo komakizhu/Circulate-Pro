@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "Circulate 安全提示修复"
+echo "Circulate Pro 安全提示修复"
 echo "此脚本只处理 Circulate 插件的下载隔离标记，不修复实际损坏的文件。"
 echo "它将请求管理员权限，并只检查以下两个精确路径："
 echo "  /Library/Audio/Plug-Ins/VST3/Circulate.vst3"

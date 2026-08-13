@@ -1,13 +1,12 @@
-<h1><strong>Circulate</strong></h1>
+<h1><strong>Circulate Pro</strong></h1>
 <p><a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a></p>
-<p><strong>Fork / macOS version:</strong> This repository is a macOS-focused fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. Version 3.0.0 is based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). This fork adds Universal 2 VST3/AUv2 builds, macOS PKG/DMG packaging, knob double-click reset, corrected factory defaults, and nine independent raster keyframes supplied by the author while preserving the original DSP.</p>
-<p>Circulate is an allpass filter-based phase dispersion effect. The allpass filters, while leaving the frequency spectrum untouched, cause selective phase offsets around the chosen center frequency. These offsets present themselves as hollow and metallic short reverberation-like effects, useful for adding a dynamic metallic character to sounds. The effect is most pronounced on transient material, such as bass stabs, drum hits and plucks.</p>
+<p><strong>Circulate Pro 3.0.0:</strong> This unified release is a cross-platform fork of <a href="https://github.com/GullDSP/Circulate-VST">GullDSP/Circulate-VST</a>. It is based on upstream source commit <code>65236c9</code> (<code>v2.0.1.1</code> in the original repository). The fork adds Universal 2 macOS VST3/AUv2 builds, a Windows x64 VST3 installer, knob double-click reset, corrected factory defaults, and nine independent raster keyframes while preserving the original DSP.</p>
+<p>Circulate Pro is an allpass filter-based phase dispersion effect. The allpass filters, while leaving the frequency spectrum untouched, cause selective phase offsets around the chosen center frequency. These offsets present themselves as hollow and metallic short reverberation-like effects, useful for adding a dynamic metallic character to sounds. The effect is most pronounced on transient material, such as bass stabs, drum hits and plucks.</p>
 <img width="660" height="398" alt="Circulate macOS preview" src="resource/readme/circulate-macos-preview.png" />
 
 <h3>Download</h3>
 <ul>
-<li><strong>macOS Universal 2:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases">PKG / DMG releases</a> for Intel and Apple Silicon.</li>
-<li><strong>Windows 3.0.0 installer:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v3.0.0-windows/Circulate-Windows-VST3-Setup-3.0.0.exe">Circulate-Windows-VST3-Setup-3.0.0.exe</a>, built from this fork's modified source.</li>
+<li><strong>Circulate Pro 3.0.0:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases/tag/v3.0.0-pro">Unified Release</a> with macOS Universal 2 DMG/PKG and Windows x64 EXE.</li>
 <li><strong>Windows original ZIP:</strong> <a href="https://github.com/GullDSP/Circulate-VST/releases/download/v2.0.1.1/circulate-vst3-v2_0_1.zip">circulate-vst3-v2_0_1.zip</a> from upstream <code>v2.0.1.1</code>.</li>
 </ul>
 <h3>Demo</h3>
@@ -38,7 +37,7 @@ www.youtube.com/watch?v=tcsrC33vn1s&t=1s
 <li>Fixed strange bounce to audio behaviour in some DAWs.</li>
 <li>Can manually enter a frequency (in Hz).</li>
 
-<h3>macOS fork 3.0.0</h3>
+<h3>Circulate Pro 3.0.0 changes</h3>
 <ul>
 <li>Double-click any knob to restore its factory default; Control/Ctrl-click remains supported.</li>
 <li>Hold <strong>Shift</strong> while dragging any knob for approximately 10× finer adjustment; Shift can be pressed or released during the same drag.</li>
@@ -78,4 +77,4 @@ cmake --build build-macos-au --config Release</code></pre>
 <p>To produce the distributable DMG after both bundles are available in <code>outputs/</code>, run <code>packaging/build-release.sh</code>. The script creates the Universal 2 PKG and DMG and installs to the system audio plug-in directories when the PKG is run.</p>
 
 <h3>Automated GitHub releases</h3>
-<p>For the fork, push a tag such as <code>v3.0.0-macos</code> through the SSH push remote. The repository workflow builds the Universal 2 VST3/AUv2 packages on a macOS runner and creates or updates the GitHub Release with the DMG and PKG. It uses the repository-scoped Actions <code>GITHUB_TOKEN</code> with <code>contents: write</code>; no personal token or browser device login is required for the release upload.</p>
+<p>Push a tag such as <code>v3.0.0-pro</code> through the SSH push remote. One repository workflow builds macOS Universal 2 VST3/AUv2 packages and the Windows x64 VST3 EXE in parallel, then creates or updates one Circulate Pro Release with all platform assets. It uses the repository-scoped Actions <code>GITHUB_TOKEN</code> with <code>contents: write</code>; no personal token or browser device login is required for the release upload.</p>
