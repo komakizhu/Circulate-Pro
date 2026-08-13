@@ -33,6 +33,15 @@ set(CMAKE_OBJCXX_STANDARD 17)
 set(CMAKE_OBJCXX_STANDARD_REQUIRED ON)
 set(CMAKE_OBJCXX_EXTENSIONS OFF)
 
+if(APPLE)
+    # VST3 SDK utility targets such as moduleinfotool and validator are created
+    # in a nested directory and do not all declare a C++ language feature. The
+    # explicit compiler flags keep their Objective-C++ translation units in
+    # C++17 mode on all supported CMake/Xcode combinations.
+    string(APPEND CMAKE_CXX_FLAGS " -std=c++17")
+    string(APPEND CMAKE_OBJCXX_FLAGS " -std=c++17")
+endif()
+
 if(CIRCULATE_ENABLE_AUV2)
     set(CIRCULATE_AUDIOUNIT_SDK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/third_party/AudioUnitSDK" CACHE PATH
         "Path to Apple's AudioUnitSDK")
