@@ -7,7 +7,7 @@
 <h3>Download</h3>
 <ul>
 <li><strong>macOS Universal 2:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases">PKG / DMG releases</a> for Intel and Apple Silicon.</li>
-<li><strong>Windows installer:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v2.0.3-macos/Circulate-Windows-VST3-Setup.exe">Circulate-Windows-VST3-Setup.exe</a>.</li>
+<li><strong>Windows 3.0.0 installer:</strong> <a href="https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v3.0.0-windows/Circulate-Windows-VST3-Setup-3.0.0.exe">Circulate-Windows-VST3-Setup-3.0.0.exe</a>, built from this fork's modified source.</li>
 <li><strong>Windows original ZIP:</strong> <a href="https://github.com/GullDSP/Circulate-VST/releases/download/v2.0.1.1/circulate-vst3-v2_0_1.zip">circulate-vst3-v2_0_1.zip</a> from upstream <code>v2.0.1.1</code>.</li>
 </ul>
 <h3>Demo</h3>
@@ -76,3 +76,6 @@ cmake --build build-macos -j1</code></pre>
   -DCIRCULATE_AUV2_STAGING_DIR="$PWD/outputs"
 cmake --build build-macos-au --config Release</code></pre>
 <p>To produce the distributable DMG after both bundles are available in <code>outputs/</code>, run <code>packaging/build-release.sh</code>. The script creates the Universal 2 PKG and DMG and installs to the system audio plug-in directories when the PKG is run.</p>
+
+<h3>Automated GitHub releases</h3>
+<p>For the fork, push a tag such as <code>v3.0.0-macos</code> through the SSH push remote. The repository workflow builds the Universal 2 VST3/AUv2 packages on a macOS runner and creates or updates the GitHub Release with the DMG and PKG. It uses the repository-scoped Actions <code>GITHUB_TOKEN</code> with <code>contents: write</code>; no personal token or browser device login is required for the release upload.</p>

@@ -1,0 +1,147 @@
+name: Build and publish macOS release
+
+on:
+  push:
+    tags:
+      - 'v*-macos'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing v<version>-macos tag to build'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: macos-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: macos-14
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+
+    steps:
+      - name: Check out source and submodules
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Resolve release tag and version
+        id: release
+        shell: bash
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          tag="${INPUT_TAG:-${REF_NAME}}"
+          if [[ ! "$tag" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-macos$ ]]; then
+            echo "Expected tag format v<major>.<minor>.<patch>-macos, got: $tag" >&2
+            exit 1
+          fi
+          version="${tag#v}"
+          version="${version%-macos}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Building $tag as version $version"
+
+      - name: Configure Universal 2 VST3
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          cmake -S . -B build-macos -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCIRCULATE_VERSION="${RELEASE_VERSION}.0" \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+            -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
+            -DSMTG_CREATE_PLUGIN_LINK=OFF
+
+      - name: Build Universal 2 VST3
+        run: cmake --build build-macos --config Release
+
+      - name: Configure Universal 2 AUv2
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          cmake -S . -B build-macos-au -G Xcode \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCIRCULATE_VERSION="${RELEASE_VERSION}.0" \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+            -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
+            -DSMTG_CREATE_PLUGIN_LINK=OFF \
+            -DCIRCULATE_ENABLE_AUV2=ON \
+            -DCIRCULATE_AUV2_STAGING_DIR="$GITHUB_WORKSPACE/outputs"
+
+      - name: Build Universal 2 AUv2
+        run: cmake --build build-macos-au --config Release
+
+      - name: Stage bundles and verify plugin version
+        id: stage
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p outputs
+          ditto build-macos/VST3/Release/Circulate.vst3 outputs/Circulate.vst3
+          test -d outputs/Circulate.component
+          expected="${RELEASE_VERSION}.0"
+          actual="$(awk -F'"' '/"Version":/ {print $4}' \
+            build-macos/VST3/Release/Circulate.vst3/Contents/Resources/moduleinfo.json | sort -u)"
+          if [[ "$actual" != "$expected" ]]; then
+            echo "release tag version $expected does not match moduleinfo versions $actual" >&2
+            exit 1
+          fi
+
+      - name: Build PKG and DMG
+        env:
+          CIRCULATE_VERSION: ${{ steps.release.outputs.version }}
+        run: ./packaging/build-release.sh
+
+      - name: Verify Universal 2 and DMG
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          for binary in \
+            outputs/Circulate.vst3/Contents/MacOS/Circulate \
+            outputs/Circulate.component/Contents/MacOS/Circulate \
+            outputs/Circulate.component/Contents/Resources/plugin.vst3/Contents/MacOS/Circulate; do
+            lipo -verify_arch arm64 x86_64 "$binary"
+          done
+          codesign --verify --deep --strict outputs/Circulate.vst3
+          codesign --verify --deep --strict outputs/Circulate.component
+          test "$(find outputs/Circulate.component/Contents/Resources/plugin.vst3 -type l | wc -l | tr -d ' ')" = 0
+          hdiutil verify "outputs/Circulate-macOS-${RELEASE_VERSION}-Universal.dmg"
+
+      - name: Create or update GitHub Release
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          dmg="outputs/Circulate-macOS-${VERSION}-Universal.dmg"
+          pkg="outputs/Circulate-macOS-${VERSION}-Universal.pkg"
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$dmg" "$pkg" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$TAG" "$dmg" "$pkg" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "Circulate macOS ${VERSION}" \
+              --generate-notes \
+              --notes "Universal 2 macOS VST3/AUv2 release. Depth uses nine supplied keyframes in strict order, held in eight-value bands with direct jumps and no runtime interpolation."
+          fi

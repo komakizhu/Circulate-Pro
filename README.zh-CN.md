@@ -14,9 +14,9 @@ Circulate 是一款基于全通滤波器的相位扩散效果器。全通滤波�
 
 [PKG / DMG 发布页](https://github.com/komakizhu/Circulate-VST-macOS/releases)，支持 Intel 与 Apple Silicon。
 
-### Windows EXE 安装程序
+### Windows 3.0.0 EXE 安装程序
 
-[下载 Circulate-Windows-VST3-Setup.exe](https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v2.0.3-macos/Circulate-Windows-VST3-Setup.exe)。运行安装程序后，VST3 会安装到 Windows 标准目录 `Common Files\VST3`，同时创建卸载入口。
+[下载 Circulate-Windows-VST3-Setup-3.0.0.exe](https://github.com/komakizhu/Circulate-VST-macOS/releases/download/v3.0.0-windows/Circulate-Windows-VST3-Setup-3.0.0.exe)。这是使用本 fork 修改后源码构建的 3.0.0 版本；运行安装程序后，VST3 会安装到 Windows 标准目录 `Common Files\VST3`，同时创建卸载入口。
 
 ### Windows 原版 ZIP
 
@@ -87,6 +87,10 @@ cmake --build build-macos-au --config Release
 ```
 
 当两个 bundle 都位于 `outputs/` 后，运行 `packaging/build-release.sh` 可生成 Universal 2 PKG 和 DMG。PKG 安装目标为系统级音频插件目录。
+
+## 自动发布 GitHub Release
+
+对 fork 使用 SSH 推送类似 `v3.0.0-macos` 的标签。仓库中的 GitHub Actions 会在 macOS runner 上构建 Universal 2 VST3/AUv2、生成 DMG 和 PKG，并自动创建或更新 GitHub Release。上传使用仓库级 Actions `GITHUB_TOKEN` 和 `contents: write` 权限，不需要个人 Token，也不需要每次进行浏览器设备登录。
 
 ## 许可与致谢
 

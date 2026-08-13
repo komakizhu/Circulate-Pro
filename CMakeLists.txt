@@ -4,6 +4,8 @@ option(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES "Enable VST 3 Plug-in Examples" OFF)
 option(SMTG_ENABLE_VST3_HOSTING_EXAMPLES "Enable VST 3 Hosting Examples" OFF)
 option(CIRCULATE_ENABLE_AUV2 "Build the macOS Audio Unit v2 wrapper" OFF)
 
+set(CIRCULATE_VERSION "3.0.0.0" CACHE STRING "Circulate plug-in version")
+
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13 CACHE STRING "")
 
 set(vst3sdk_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/vst3sdk" CACHE PATH
@@ -16,7 +18,7 @@ project(Circulate
     # This is your plug-in version number. Change it here only.
     # Version number symbols usable in C++ can be found in
     # source/version.h and ${PROJECT_BINARY_DIR}/projectversion.h.
-    VERSION 3.0.0.0
+    VERSION ${CIRCULATE_VERSION}
     DESCRIPTION "Circulate VST 3 Plug-in"
 )
 
