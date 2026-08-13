@@ -8,7 +8,7 @@ https://github.com/komakizhu/Circulate-VST-macOS
 
 This macOS build includes the cross-platform compatibility changes required for the
 VST3 SDK, the AUv2 wrapper integration, and the packaging/uninstaller tooling in this
-workspace. Version 3.0.1 also adds knob double-click reset, approximately 10x Shift fine
+workspace. Version 3.0.0 also adds knob double-click reset, approximately 10x Shift fine
 adjustment while dragging, corrects the Note and Depth factory defaults, and adds nine
 independent Depth keyframes from the supplied 3x3 raster keyframe sheet. The
 keyframe extraction preserves each supplied source cell as one complete state;

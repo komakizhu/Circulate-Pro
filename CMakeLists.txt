@@ -16,7 +16,7 @@ project(Circulate
     # This is your plug-in version number. Change it here only.
     # Version number symbols usable in C++ can be found in
     # source/version.h and ${PROJECT_BINARY_DIR}/projectversion.h.
-    VERSION 3.0.1.0
+    VERSION 3.0.0.0
     DESCRIPTION "Circulate VST 3 Plug-in"
 )
 
