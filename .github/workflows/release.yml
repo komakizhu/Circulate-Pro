@@ -249,6 +249,19 @@ jobs:
             test -f "${asset}"
           done
           if gh release view "${TAG}" --repo "${REPOSITORY}" >/dev/null 2>&1; then
+            while IFS= read -r old_asset; do
+              case "${old_asset}" in
+                "Circulate-Pro-${VERSION}-macOS-Universal.dmg"|"Circulate-Pro-${VERSION}-Windows-VST3-Setup.exe")
+                  ;;
+                "")
+                  ;;
+                *)
+                  gh release delete-asset "${TAG}" "${old_asset}" \
+                    --repo "${REPOSITORY}" --yes
+                  ;;
+              esac
+            done < <(gh release view "${TAG}" --repo "${REPOSITORY}" \
+              --json assets --jq '.assets[].name')
             gh release upload "${TAG}" "${assets[@]}" --repo "${REPOSITORY}" --clobber
           else
             gh release create "${TAG}" "${assets[@]}" \
