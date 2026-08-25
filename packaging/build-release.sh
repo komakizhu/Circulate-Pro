@@ -14,8 +14,12 @@ NOTARY_PROFILE="${CIRCULATE_NOTARY_PROFILE:-}"
 
 PKG_NAME="${PRODUCT_SLUG}-${VERSION}-macOS-Universal.pkg"
 DMG_NAME="${PRODUCT_SLUG}-${VERSION}-macOS-Universal.dmg"
-FINAL_PKG="${OUTPUT_DIR}/${PKG_NAME}"
+# The installer package is embedded inside the DMG and is not emitted as a
+# standalone release artifact.
 FINAL_DMG="${OUTPUT_DIR}/${DMG_NAME}"
+# Remove only a stale standalone package from an earlier build; the installer
+# generated below remains embedded inside the DMG.
+rm -f "${OUTPUT_DIR}/${PKG_NAME}"
 DMG_README_NAME="1 README.txt"
 DMG_INSTALLER_NAME="2 Install ${PRODUCT_NAME}.pkg"
 DMG_COPYRIGHT_NAME="3 Copyright"
@@ -83,6 +87,7 @@ verify_bird_resources "${AU_SOURCE}/Contents/Resources/plugin.vst3"
 
 WORK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/circulate-release.XXXXXX")"
 trap 'rm -rf "${WORK_DIR}"' EXIT
+FINAL_PKG="${WORK_DIR}/${PKG_NAME}"
 
 COMPONENT_PACKAGES_DIR="${WORK_DIR}/component-packages"
 VST3_PACKAGE_ROOT="${WORK_DIR}/vst3-package-root/Library/Audio/Plug-Ins/VST3"
@@ -176,20 +181,26 @@ done
 /usr/bin/lipo -create \
     "${WORK_DIR}/CirculateUninstaller-arm64" \
     "${WORK_DIR}/CirculateUninstaller-x86_64" \
-    -output "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
+    -output "${UNINSTALLER_APP}/Contents/MacOS/CirculateProUninstaller"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/uninstaller-Info.plist" "${UNINSTALLER_APP}/Contents/Info.plist"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/uninstall-root.sh" "${UNINSTALLER_APP}/Contents/Resources/uninstall-root.sh"
 /usr/bin/ditto --norsrc "${PROJECT_DIR}/packaging/CirculateUninstaller.icns" "${UNINSTALLER_APP}/Contents/Resources/CirculateUninstaller.icns"
-/bin/chmod 755 "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
+UNINSTALLER_EXECUTABLE_NAME="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "${UNINSTALLER_APP}/Contents/Info.plist")"
+UNINSTALLER_EXECUTABLE="${UNINSTALLER_APP}/Contents/MacOS/${UNINSTALLER_EXECUTABLE_NAME}"
+[[ -x "${UNINSTALLER_EXECUTABLE}" ]] || {
+    echo "CFBundleExecutable does not match the app's executable: ${UNINSTALLER_EXECUTABLE_NAME}" >&2
+    exit 1
+}
+/bin/chmod 755 "${UNINSTALLER_EXECUTABLE}"
 /bin/chmod 755 "${UNINSTALLER_APP}/Contents/Resources/uninstall-root.sh"
 
 if [[ -n "${APPLICATION_IDENTITY}" ]]; then
     /usr/bin/codesign --force --options runtime --timestamp \
-        --sign "${APPLICATION_IDENTITY}" "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
+        --sign "${APPLICATION_IDENTITY}" "${UNINSTALLER_EXECUTABLE}"
     /usr/bin/codesign --force --options runtime --timestamp \
         --deep --sign "${APPLICATION_IDENTITY}" "${UNINSTALLER_APP}"
 else
-    /usr/bin/codesign --force --sign - "${UNINSTALLER_APP}/Contents/MacOS/Circulate Uninstaller"
+    /usr/bin/codesign --force --sign - "${UNINSTALLER_EXECUTABLE}"
     /usr/bin/codesign --force --deep --sign - "${UNINSTALLER_APP}"
 fi
 /usr/bin/xattr -rc "${UNINSTALLER_APP}" 2>/dev/null || true
@@ -234,5 +245,5 @@ if [[ -n "${NOTARY_PROFILE}" ]]; then
     xcrun stapler validate "${FINAL_DMG}"
 fi
 
-echo "Created: ${FINAL_PKG}"
+echo "Embedded installer package: ${FINAL_PKG}"
 echo "Created: ${FINAL_DMG}"

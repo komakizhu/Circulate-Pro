@@ -183,6 +183,15 @@ VSTGUI::CView* CirculateController::createCustomView (
 			std::move (keyframes));
 	}
 
+	if (std::strcmp (name, "ProBadgeView") == 0)
+	{
+		auto badgeBitmap = VSTGUI::shared (description->getBitmap ("pro-badge"));
+		VSTGUI::CColor textColor (195, 195, 195, 255);
+		description->getColor ("BG", textColor);
+		return new ProBadgeView (VSTGUI::CRect (0, 0, 20, 14),
+			std::move (badgeBitmap), description->getFont ("ProBadge"), textColor);
+	}
+
 	if (std::strcmp (name, "CreditLinkView") == 0)
 	{
 		VSTGUI::CColor normalColor (100, 100, 100, 255);

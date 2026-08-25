@@ -9,7 +9,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Circulate Pro</string>
+	<key>CFBundleDisplayName</key>
+	<string>Circulate Pro</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -26,11 +28,11 @@
 			<key>factoryFunction</key>
 			<string>AUWrapperFactory</string>
 			<key>description</key>
-			<string>Circulate</string>
+			<string>Circulate Pro</string>
 			<key>manufacturer</key>
 			<string>GulD</string>
 			<key>name</key>
-			<string>GullDSP: Circulate</string>
+			<string>GullDSP: Circulate Pro</string>
 			<key>subtype</key>
 			<string>Circ</string>
 			<key>type</key>

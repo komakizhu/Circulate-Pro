@@ -113,7 +113,7 @@ jobs:
       - name: Build Universal 2 AUv2
         run: cmake --build build-macos-au --config Release
 
-      - name: Stage bundles and build Circulate Pro DMG/PKG
+      - name: Stage bundles and build Circulate Pro DMG
         shell: bash
         run: |
           set -euo pipefail
@@ -142,7 +142,6 @@ jobs:
           codesign --verify --deep --strict outputs/Circulate.component
           test "$(find outputs/Circulate.component/Contents/Resources/plugin.vst3 -type l | wc -l | tr -d ' ')" = 0
           test -f "outputs/Circulate-Pro-${VERSION}-macOS-Universal.dmg"
-          test -f "outputs/Circulate-Pro-${VERSION}-macOS-Universal.pkg"
           hdiutil verify "outputs/Circulate-Pro-${VERSION}-macOS-Universal.dmg"
 
       - name: Upload macOS release assets
@@ -151,7 +150,6 @@ jobs:
           name: circulate-pro-macos
           path: |
             outputs/Circulate-Pro-${{ needs.prepare.outputs.version }}-macOS-Universal.dmg
-            outputs/Circulate-Pro-${{ needs.prepare.outputs.version }}-macOS-Universal.pkg
           if-no-files-found: error
 
   windows:
@@ -245,7 +243,6 @@ jobs:
           set -euo pipefail
           assets=(
             "release-assets/Circulate-Pro-${VERSION}-macOS-Universal.dmg"
-            "release-assets/Circulate-Pro-${VERSION}-macOS-Universal.pkg"
             "release-assets/Circulate-Pro-${VERSION}-Windows-VST3-Setup.exe"
           )
           for asset in "${assets[@]}"; do
@@ -258,5 +255,5 @@ jobs:
               --repo "${REPOSITORY}" \
               --target "${TARGET_SHA}" \
               --title "Circulate Pro ${VERSION}" \
-              --notes "Circulate Pro ${VERSION} unified macOS and Windows release.\n\nmacOS: Universal 2 VST3/AUv2 DMG and PKG.\nWindows: x64 VST3 EXE installer.\n\nThe plug-in identity remains Circulate for compatibility with existing projects."
+              --notes "Circulate Pro ${VERSION} unified macOS and Windows release.\n\nmacOS: Universal 2 VST3/AUv2 DMG. The DMG contains the selectable installer package, uninstaller, README and copyright materials.\nWindows: x64 VST3 EXE installer.\n\nThe host-visible plug-in name is Circulate Pro. Technical bundle names, UIDs and install receipts remain stable for compatibility with existing projects."
           fi

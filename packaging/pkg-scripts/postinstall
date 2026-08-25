@@ -3,5 +3,21 @@ set -eu
 
 # The registrar will relaunch itself if it is not running. This is best effort;
 # it does not affect the installed plugin files or user projects.
+# An earlier development build could leave a user-level AU bundle with the
+# same component identity and the old display name. Audio Unit discovery gives
+# that per-user bundle precedence over the new system installation, so remove
+# it only when its metadata is explicitly the old Circulate name.
+console_user="$(/usr/bin/stat -f%Su /dev/console 2>/dev/null || true)"
+if [ -n "${console_user}" ] && [ "${console_user}" != "root" ] && [ "${console_user}" != "_mbsetupuser" ]; then
+    user_home="$(/usr/bin/dscl . -read "/Users/${console_user}" NFSHomeDirectory 2>/dev/null | /usr/bin/awk '{print $2}')"
+    legacy_au="${user_home}/Library/Audio/Plug-Ins/Components/Circulate.component"
+    if [ -n "${user_home}" ] && [ -f "${legacy_au}/Contents/Info.plist" ]; then
+        legacy_name="$(/usr/libexec/PlistBuddy -c 'Print :AudioComponents:0:name' "${legacy_au}/Contents/Info.plist" 2>/dev/null || true)"
+        legacy_description="$(/usr/libexec/PlistBuddy -c 'Print :AudioComponents:0:description' "${legacy_au}/Contents/Info.plist" 2>/dev/null || true)"
+        if [ "${legacy_name}" = "GullDSP: Circulate" ] || [ "${legacy_description}" = "Circulate" ]; then
+            /bin/rm -rf -- "${legacy_au}"
+        fi
+    fi
+fi
 /usr/bin/killall -q AudioComponentRegistrar 2>/dev/null || true
 exit 0

@@ -19,7 +19,7 @@ project(Circulate
     # Version number symbols usable in C++ can be found in
     # source/version.h and ${PROJECT_BINARY_DIR}/projectversion.h.
     VERSION ${CIRCULATE_VERSION}
-    DESCRIPTION "Circulate VST 3 Plug-in"
+    DESCRIPTION "Circulate Pro VST 3 Plug-in"
 )
 
 # The bundled VST3 SDK has a few targets whose sources are not assigned a
@@ -120,6 +120,10 @@ if(SMTG_ENABLE_VSTGUI_SUPPORT)
     smtg_target_add_plugin_resources(Circulate
         RESOURCES
             "resource/editor.uidesc"
+            "resource/pro-badge.png"
+            "resource/pro-badge#2x.png"
+            "resource/pro-badge#3x.png"
+            "resource/pro-badge#4x.png"
     )
     smtg_target_add_plugin_resources(Circulate
         RESOURCES

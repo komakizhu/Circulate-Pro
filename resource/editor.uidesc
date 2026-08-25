@@ -38,6 +38,10 @@
 			"depth-bird-keyframe-06#4x": { "path": "bird/depth-bird-keyframe-06#4x.png", "scale-factor": "4" },
 			"depth-bird-keyframe-07#4x": { "path": "bird/depth-bird-keyframe-07#4x.png", "scale-factor": "4" },
 			"depth-bird-keyframe-08#4x": { "path": "bird/depth-bird-keyframe-08#4x.png", "scale-factor": "4" },
+			"pro-badge": { "path": "pro-badge.png" },
+			"pro-badge#2x": { "path": "pro-badge#2x.png", "scale-factor": "2" },
+			"pro-badge#3x": { "path": "pro-badge#3x.png", "scale-factor": "3" },
+			"pro-badge#4x": { "path": "pro-badge#4x.png", "scale-factor": "4" },
 			"logo": {
 				"path": "logo.png",
 				"data": {
@@ -98,7 +102,12 @@
 			},
 			"TITLE": {
 				"font-name": "Arial",
-				"size": "28"
+				"size": "22"
+			},
+			"ProBadge": {
+				"bold": "true",
+				"font-name": "Arial",
+				"size": "6"
 			}
 		},
 		"colors": {
@@ -244,7 +253,7 @@
 							"origin": "10, 5",
 							"round-rect-radius": "6",
 							"shadow-color": "~ RedCColor",
-							"size": "165, 30",
+							"size": "135, 30",
 							"style-3D-in": "false",
 							"style-3D-out": "false",
 							"style-no-draw": "false",
@@ -262,6 +271,17 @@
 							"value-precision": "2",
 							"wants-focus": "false",
 							"wheel-inc-value": "0.1"
+						}
+					},
+					"CView-ProBadge": {
+						"attributes": {
+							"class": "CView",
+							"custom-view-name": "ProBadgeView",
+							"mouse-enabled": "false",
+							"origin": "140, 16",
+							"size": "20, 14",
+							"transparent": "true",
+							"wants-focus": "false"
 						}
 					},
 					"CAutoAnimation": {

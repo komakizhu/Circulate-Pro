@@ -18,10 +18,11 @@
   /Library/Audio/Plug-Ins/Components/Circulate.component
 
 安装完成后重启 Logic Pro、Ableton Live 或其他宿主，再扫描插件。
+升级旧版时，安装脚本会清理同一用户目录下仍显示为“Circulate”的旧 AU 副本，避免宿主优先加载旧名称。
 
 卸载
 ----
-双击“4 @PRODUCT_NAME@ Uninstaller.app”，确认后输入管理员密码。它只删除 Circulate 的
+双击“4 @PRODUCT_NAME@ Uninstaller.app”，确认后输入管理员密码。它只删除 Circulate Pro 的
 两个插件和安装收据，不删除工程、预设或其他厂商插件。
 
 安全提示
@@ -44,7 +45,7 @@
 
 许可证和源码
 ------------
-Circulate 按 GPL-3.0 发布。请阅读“3 Copyright/GPL-3.0-License.txt”，并从以下地址获取源码和
+Circulate Pro 按 GPL-3.0 发布。请阅读“3 Copyright/GPL-3.0-License.txt”，并从以下地址获取源码和
 本 macOS 兼容修改：
 
   3.0.0 adds knob double-click reset, corrects the Note and Depth factory defaults,

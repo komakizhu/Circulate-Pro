@@ -9,8 +9,6 @@
 
 #include "public.sdk/source/main/pluginfactory.h"
 
-#define stringPluginName "Circulate"
-
 using namespace Steinberg::Vst;
 using namespace CirculateVST;
 
@@ -38,7 +36,7 @@ BEGIN_FACTORY_DEF ("GullDSP",
 	DEF_CLASS2 (INLINE_UID_FROM_FUID (kCirculateControllerUID),
 				PClassInfo::kManyInstances, // cardinality
 				kVstComponentControllerClass,// the Controller category (do not changed this)
-				stringPluginName "Controller",	// controller name (could be the same than component name)
+				stringControllerName,			// controller name (could be the same than component name)
 				0,						// not used here
 				"",						// not used here
 				FULL_VERSION_STR,		// Plug-in version (to be changed)

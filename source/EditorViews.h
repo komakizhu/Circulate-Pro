@@ -71,6 +71,47 @@ private:
 	uint16_t baseFrame {0};
 };
 
+class ProBadgeView final : public VSTGUI::CView
+{
+public:
+	ProBadgeView (const VSTGUI::CRect& size,
+				  VSTGUI::SharedPointer<VSTGUI::CBitmap> bitmap,
+				  VSTGUI::CFontRef font, VSTGUI::CColor textColor)
+	: CView (size), bitmap (std::move (bitmap)), font (font), textColor (textColor)
+	{
+		setMouseEnabled (false);
+	}
+
+	ProBadgeView (const ProBadgeView& other)
+	: CView (other), bitmap (other.bitmap), font (other.font), textColor (other.textColor)
+	{
+		setMouseEnabled (false);
+	}
+
+	VSTGUI::CBaseObject* newCopy () const override { return new ProBadgeView (*this); }
+
+	void draw (VSTGUI::CDrawContext* context) override
+	{
+		if (bitmap)
+			bitmap->draw (context, getViewSize ());
+		// At small logical sizes the generated foil texture can visually merge
+		// the lettering. Render the exact background-colored knockout on top so
+		// PRO remains legible at 1x while the AI foil remains the badge surface.
+		context->setFont (font);
+		context->setFontColor (textColor);
+		context->drawString ("PRO", getViewSize (), VSTGUI::kCenterText, true);
+		setDirty (false);
+	}
+
+protected:
+	~ProBadgeView () noexcept override = default;
+
+private:
+	VSTGUI::SharedPointer<VSTGUI::CBitmap> bitmap;
+	VSTGUI::CFontRef font {nullptr};
+	VSTGUI::CColor textColor;
+};
+
 class CreditLinkView final : public VSTGUI::CView
 {
 public:

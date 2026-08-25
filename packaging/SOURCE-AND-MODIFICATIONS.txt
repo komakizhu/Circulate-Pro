@@ -19,7 +19,10 @@ same logical size. Each source image is held for eight Depth values, with the
 ninth image selected at Depth 64. The runtime jumps directly between the nine
 source images; there is no path redraw, interpolation,
 whole-image overlay or opacity fading. The macOS version credit links to the
-fork repository.
+fork repository. The editor retains the original large CIRCULATE title and adds
+a compact gold knockout-style PRO badge. The AU installer also removes an old
+per-user Circulate AU bundle when its metadata explicitly identifies the legacy
+name, preventing it from shadowing the Circulate Pro system installation.
 The corresponding source and build files are distributed in the project repository
 under the GPL-3.0 license.
 

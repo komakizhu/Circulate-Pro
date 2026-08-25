@@ -7,7 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Circulate Pro Uninstaller</string>
 	<key>CFBundleExecutable</key>
-	<string>Circulate Pro Uninstaller</string>
+	<string>CirculateProUninstaller</string>
 	<key>CFBundleIconFile</key>
 	<string>CirculateUninstaller.icns</string>
 	<key>CFBundleIconName</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Circulate Uninstaller</string>
+	<string>Circulate Pro Uninstaller</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

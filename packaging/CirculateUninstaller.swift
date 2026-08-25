@@ -8,7 +8,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let alert = NSAlert()
         alert.messageText = "卸载 Circulate Pro"
-        alert.informativeText = "这将移除系统级安装的 Circulate VST3 和 AUv2 插件。Logic/Ableton 工程、用户预设及其他插件不会被删除。"
+        alert.informativeText = "这将移除系统级安装的 Circulate Pro VST3 和 AUv2 插件。Logic/Ableton 工程、用户预设及其他插件不会被删除。"
         alert.alertStyle = .warning
         alert.addButton(withTitle: "卸载")
         alert.addButton(withTitle: "取消")
