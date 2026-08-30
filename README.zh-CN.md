@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **Circulate Pro 3.0.0：** 本项目是 [GullDSP/Circulate-VST](https://github.com/GullDSP/Circulate-VST) 的跨平台 fork，源代码基于上游 commit `65236c9`（原仓库中的 `v2.0.1.1`）。本 fork 同时提供 Intel/Apple Silicon Universal 2 的 macOS VST3/AUv2、Windows x64 VST3 EXE 安装包、旋钮双击回正、默认值修复和九张独立关键帧图；原有 DSP 算法保持不变。
+> **Circulate Pro 3.1.0：** 本项目是 [GullDSP/Circulate-VST](https://github.com/GullDSP/Circulate-VST) 的跨平台 fork，源代码基于上游 commit `65236c9`（原仓库中的 `v2.0.1.1`）。本 fork 同时提供 Intel/Apple Silicon Universal 2 的 macOS VST3/AUv2、Windows x64 VST3 EXE 安装包、旋钮双击回正、默认值修复和九张独立关键帧图；原有 DSP 算法保持不变。
 
 Circulate Pro 是一款基于全通滤波器的相位扩散效果器。全通滤波器不改变频谱幅度，但会在选定中心频率附近产生选择性的相位偏移，从而形成空洞、金属感和短混响般的听感。该效果在贝斯 Stab、鼓击和 Pluck 等瞬态素材上最明显。
 
@@ -12,9 +12,9 @@ Circulate Pro 是一款基于全通滤波器的相位扩散效果器。全通滤
 
 ## 下载
 
-### Circulate Pro 3.0.0（macOS + Windows）
+### Circulate Pro 3.1.0（macOS + Windows）
 
-[统一 Release 发布页](https://github.com/komakizhu/Circulate-VST-macOS/releases/tag/v3.0.0-pro)：包含 macOS Universal 2 的 DMG 和 Windows x64 的 EXE 安装包。DMG 内含可选择的 macOS 安装包。
+[统一 Release 发布页](https://github.com/komakizhu/Circulate-Pro/releases)：包含 macOS Universal 2 的 DMG 和 Windows x64 的 EXE 安装包。DMG 内含可选择的 macOS 安装包。
 
 ### Windows 原版 ZIP
 
@@ -47,7 +47,7 @@ Circulate Pro 是一款基于全通滤波器的相位扩散效果器。全通滤
 - 修复部分 DAW 中导出音频时的异常行为。
 - 支持手动输入 Hz 频率。
 
-## Circulate Pro 3.0.0 修改内容
+## Circulate Pro 3.1.0 修改内容
 
 - 双击任意旋钮可恢复出厂默认值，同时保留 Control/Ctrl-click 回正。
 - 拖动任意旋钮时按住 **Shift** 可进行约 10 倍阻尼的细微调整；拖动过程中也可以随时按下或释放 Shift。
@@ -89,7 +89,7 @@ cmake --build build-macos-au --config Release
 
 ## 自动发布 Circulate Pro Release
 
-对 fork 使用 SSH 推送类似 `v3.0.0-pro` 的标签。仓库中的单一 GitHub Actions workflow 会并行构建包含可选择安装包的 macOS Universal 2 DMG 与 Windows x64 VST3 EXE，然后自动创建或更新同一个 Circulate Pro Release。上传使用仓库级 Actions `GITHUB_TOKEN` 和 `contents: write` 权限，不需要个人 Token，也不需要每次进行浏览器设备登录。
+对 fork 使用 SSH 推送类似 `v3.1.0-pro` 的标签。仓库中的单一 GitHub Actions workflow 会并行构建包含可选择安装包的 macOS Universal 2 DMG 与 Windows x64 VST3 EXE，然后自动创建或更新同一个 Circulate Pro Release。上传使用仓库级 Actions `GITHUB_TOKEN` 和 `contents: write` 权限，不需要个人 Token，也不需要每次进行浏览器设备登录。
 
 ## 许可与致谢
 

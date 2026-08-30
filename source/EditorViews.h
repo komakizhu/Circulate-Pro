@@ -115,7 +115,7 @@ private:
 class CreditLinkView final : public VSTGUI::CView
 {
 public:
-	static constexpr auto kPrefix = "v3.0.0 \xC2\xB7 GullDSP \xC2\xB7 ";
+	static constexpr auto kPrefix = "v3.1.0 \xC2\xB7 GullDSP \xC2\xB7 ";
 	static constexpr auto kLinkText = "macOS version by komaki";
 	static constexpr auto kProjectUrl = "https://github.com/komakizhu/Circulate-VST-macOS";
 

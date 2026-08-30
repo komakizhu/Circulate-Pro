@@ -1,7 +1,7 @@
 Unicode true
 RequestExecutionLevel admin
 !ifndef CIRCULATE_VERSION
-  !define CIRCULATE_VERSION "3.0.0.0"
+  !define CIRCULATE_VERSION "3.1.0.0"
 !endif
 !ifndef PRODUCT_NAME
   !define PRODUCT_NAME "Circulate Pro"

@@ -4,7 +4,7 @@ option(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES "Enable VST 3 Plug-in Examples" OFF)
 option(SMTG_ENABLE_VST3_HOSTING_EXAMPLES "Enable VST 3 Hosting Examples" OFF)
 option(CIRCULATE_ENABLE_AUV2 "Build the macOS Audio Unit v2 wrapper" OFF)
 
-set(CIRCULATE_VERSION "3.0.0.0" CACHE STRING "Circulate plug-in version")
+set(CIRCULATE_VERSION "3.1.0.0" CACHE STRING "Circulate plug-in version")
 
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13 CACHE STRING "")
 

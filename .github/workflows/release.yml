@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Circulate Pro version, for example 3.0.0'
+        description: 'Circulate Pro version, for example 3.1.0'
         required: true
-        default: '3.0.0'
+        default: '3.1.0'
         type: string
 
 permissions:

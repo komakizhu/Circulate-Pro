@@ -48,7 +48,7 @@
 Circulate Pro 按 GPL-3.0 发布。请阅读“3 Copyright/GPL-3.0-License.txt”，并从以下地址获取源码和
 本 macOS 兼容修改：
 
-  3.0.0 adds knob double-click reset, corrects the Note and Depth factory defaults,
+  3.1.0 adds knob double-click reset, corrects the Note and Depth factory defaults,
   supports approximately 10x fine knob adjustment while holding Shift during a drag,
   and adds nine independent stepped keyframes from the supplied 3x3 raster sheet.
   The supplied head/body changes are preserved; each complete bird is moved upward
